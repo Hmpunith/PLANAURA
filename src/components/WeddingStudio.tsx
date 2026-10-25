@@ -253,7 +253,7 @@ export const WeddingStudio: React.FC<WeddingStudioProps> = ({ blueprint }) => {
               <span>Aura Wedding Insight</span>
             </div>
             <p className="text-xs text-slate-300 leading-relaxed">
-              "Never forget a designated **Emergency Bridal Kit** (sewing kit, stain remover, safety pins, clear umbrella, and electrolyte hydration) entrusted to your Maid of Honor!"
+              "Never forget a designated <strong className="text-amber-300 font-semibold">Emergency Bridal Kit</strong> (sewing kit, stain remover, safety pins, clear umbrella, and electrolyte hydration) entrusted to your Maid of Honor!"
             </p>
           </div>
         </div>

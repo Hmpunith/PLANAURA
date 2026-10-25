@@ -22,7 +22,7 @@ const STARTER_PROMPTS = [
 ];
 
 /**
- * Formats Markdown syntax into rich styled React elements, stripping raw asterisks (**) and hashes (###).
+ * Formats Markdown syntax into rich styled React elements, stripping raw asterisks (***, **) and hashes (###, ##, #).
  */
 const renderFormattedMessage = (content: string): React.ReactNode => {
   const lines = content.split('\n');
@@ -58,9 +58,17 @@ const renderFormattedMessage = (content: string): React.ReactNode => {
   };
 
   const formatInline = (text: string): React.ReactNode => {
-    // Matches **bold** or *italic*
-    const parts = text.split(/(\*\*[^*]+\*\*|\*[^*]+\*)/g);
+    // Matches ***bold-italic***, **bold**, *italic*, `code`
+    const tokenRegex = /(\*\*\*[^*]+\*\*\*|\*\*[^*]+\*\*|\*[^*]+\*|`[^`]+`)/g;
+    const parts = text.split(tokenRegex);
     return parts.map((part, index) => {
+      if (part.startsWith('***') && part.endsWith('***') && part.length >= 6) {
+        return (
+          <strong key={index} className="font-bold italic text-amber-300">
+            {part.slice(3, -3)}
+          </strong>
+        );
+      }
       if (part.startsWith('**') && part.endsWith('**') && part.length >= 4) {
         return (
           <strong key={index} className="font-bold text-amber-300">
@@ -75,12 +83,32 @@ const renderFormattedMessage = (content: string): React.ReactNode => {
           </em>
         );
       }
-      return part;
+      if (part.startsWith('`') && part.endsWith('`') && part.length >= 2) {
+        return (
+          <code key={index} className="px-1.5 py-0.5 rounded bg-slate-800 text-amber-300 font-mono text-xs">
+            {part.slice(1, -1)}
+          </code>
+        );
+      }
+      // Safety: strip any lingering stray triple or double asterisks from raw text
+      return part.replace(/\*{2,3}/g, '');
     });
   };
 
   lines.forEach((line, i) => {
     const trimmed = line.trim();
+
+    if (!trimmed) {
+      flushList(`l-${i}`);
+      return;
+    }
+
+    // Dividers: --- or *** or ___
+    if (/^(\*{3,}|-{3,}|_{3,})$/.test(trimmed)) {
+      flushList(`l-${i}`);
+      renderedElements.push(<hr key={i} className="my-3 border-slate-800" />);
+      return;
+    }
 
     // Blockquote handling (e.g. > 💡 Cost-Saving Tip)
     if (trimmed.startsWith('>')) {
@@ -92,31 +120,44 @@ const renderFormattedMessage = (content: string): React.ReactNode => {
       flushQuote(`q-${i}`);
     }
 
-    // Header 3 (###)
-    if (trimmed.startsWith('### ')) {
+    // Header 1-4 (#, ##, ###, ####)
+    const headerMatch = trimmed.match(/^(#{1,6})\s*(.*)$/);
+    if (headerMatch) {
       flushList(`l-${i}`);
-      renderedElements.push(
-        <h3 key={i} className="text-sm sm:text-base font-bold text-white mt-2.5 mb-1.5 flex items-center space-x-1">
-          {formatInline(trimmed.slice(4))}
-        </h3>
-      );
+      const level = headerMatch[1].length;
+      const headingContent = formatInline(headerMatch[2]);
+      if (level === 1) {
+        renderedElements.push(
+          <h1 key={i} className="text-base sm:text-lg font-bold text-amber-300 mt-3 mb-1.5 flex items-center space-x-1">
+            {headingContent}
+          </h1>
+        );
+      } else if (level === 2) {
+        renderedElements.push(
+          <h2 key={i} className="text-sm sm:text-base font-bold text-white mt-3 mb-1.5 flex items-center space-x-1">
+            {headingContent}
+          </h2>
+        );
+      } else if (level === 3) {
+        renderedElements.push(
+          <h3 key={i} className="text-xs sm:text-sm font-bold text-amber-200 mt-2.5 mb-1 flex items-center space-x-1">
+            {headingContent}
+          </h3>
+        );
+      } else {
+        renderedElements.push(
+          <h4 key={i} className="text-xs font-semibold text-slate-200 mt-2 mb-1">
+            {headingContent}
+          </h4>
+        );
+      }
       return;
     }
 
-    // Header 2 (##)
-    if (trimmed.startsWith('## ')) {
-      flushList(`l-${i}`);
-      renderedElements.push(
-        <h2 key={i} className="text-base sm:text-lg font-bold text-white mt-3 mb-1.5">
-          {formatInline(trimmed.slice(3))}
-        </h2>
-      );
-      return;
-    }
-
-    // Bullet points (- or *)
-    if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
-      const itemText = trimmed.slice(2);
+    // Bullet points (- or * or +)
+    if (/^[-*+]\s+(.*)$/.test(trimmed)) {
+      const match = trimmed.match(/^[-*+]\s+(.*)$/);
+      const itemText = match ? match[1] : trimmed.slice(2);
       currentList.push(
         <li key={`li-${i}`} className="flex items-start space-x-2 text-xs sm:text-sm text-slate-200">
           <span className="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0 mt-1.5" />
@@ -127,13 +168,13 @@ const renderFormattedMessage = (content: string): React.ReactNode => {
     }
 
     // Numbered lists (1., 2., etc)
-    if (/^\d+\.\s/.test(trimmed)) {
+    const numMatch = trimmed.match(/^(\d+\.)\s*(.*)$/);
+    if (numMatch) {
       flushList(`l-${i}`);
-      const numMatch = trimmed.match(/^(\d+\.)\s*(.*)$/);
       currentList.push(
         <li key={`ol-${i}`} className="flex items-start space-x-2 text-xs sm:text-sm text-slate-200 my-0.5">
-          <span className="font-mono text-amber-400 font-bold shrink-0">{numMatch?.[1]}</span>
-          <span>{formatInline(numMatch?.[2] || '')}</span>
+          <span className="font-mono text-amber-400 font-bold shrink-0">{numMatch[1]}</span>
+          <span>{formatInline(numMatch[2])}</span>
         </li>
       );
       return;
@@ -141,13 +182,11 @@ const renderFormattedMessage = (content: string): React.ReactNode => {
 
     flushList(`l-${i}`);
 
-    if (trimmed.length > 0) {
-      renderedElements.push(
-        <p key={i} className="text-xs sm:text-sm text-slate-200 my-1 leading-relaxed">
-          {formatInline(trimmed)}
-        </p>
-      );
-    }
+    renderedElements.push(
+      <p key={i} className="text-xs sm:text-sm text-slate-200 my-1 leading-relaxed">
+        {formatInline(trimmed)}
+      </p>
+    );
   });
 
   flushList('final-list');
