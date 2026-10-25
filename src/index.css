@@ -1,0 +1,93 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --bg-dark: #0a0d14;
+    --card-dark: #111726;
+    --border-dark: #1e293b;
+    --accent-gold: #d97706;
+    --accent-rose: #e11d48;
+    --accent-teal: #0d9488;
+  }
+
+  body {
+    background-color: var(--bg-dark);
+    color: #f1f5f9;
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+/* Accessibility: Visible Skip Link */
+.skip-link {
+  position: absolute;
+  top: -9999px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #f59e0b;
+  color: #000000;
+  padding: 0.75rem 1.5rem;
+  font-weight: 700;
+  border-radius: 0 0 0.5rem 0.5rem;
+  z-index: 99999;
+  text-decoration: none;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+/* Accessibility: Keyboard Focus Visibility (WCAG AA Requirement) */
+:focus-visible {
+  outline: 2px solid #f59e0b !important;
+  outline-offset: 3px !important;
+}
+
+/* Accessibility Requirement 1: Reduced Motion Media Query */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Accessibility Requirement 2: High Contrast Media Query */
+@media (prefers-contrast: high) {
+  body {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+  }
+  
+  .card, [role="region"], [role="tabpanel"], nav, header, footer {
+    border-color: #ffffff !important;
+    background-color: #050505 !important;
+  }
+
+  button, a {
+    outline: 2px solid currentColor !important;
+  }
+}
+
+/* Accessibility Requirement 3: Print Optimization Media Query */
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+
+  header, nav, footer, button, .no-print {
+    display: none !important;
+  }
+
+  main {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+}
