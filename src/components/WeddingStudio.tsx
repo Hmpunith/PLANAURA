@@ -1,9 +1,21 @@
+/**
+ * @file PlanAura Wedding Studio View
+ * @description Dedicated matrimonial planning suite featuring dynamic banquet table calculators and tradition checklists.
+ * @module src/components/WeddingStudio
+ */
+
 import React, { useState } from 'react';
 import { HeartHandshake, CheckCircle2, Circle, Users, Sparkles } from 'lucide-react';
 import { EventBlueprint } from '../types';
 
-interface WeddingStudioProps {
+/**
+ * Properties for WeddingStudio component.
+ */
+export interface WeddingStudioProps {
+  /** Active event blueprint providing guest counts and currency */
   blueprint: EventBlueprint;
+  /** Optional callback when budget modifications occur */
+  onUpdateBudget?: (updated: EventBlueprint['budget']) => void;
 }
 
 interface WeddingTradition {
@@ -14,6 +26,9 @@ interface WeddingTradition {
   completed: boolean;
 }
 
+/**
+ * WeddingStudio provides interactive table sizing, floorplan visualizers, and ceremony protocol checklists.
+ */
 export const WeddingStudio: React.FC<WeddingStudioProps> = ({ blueprint }) => {
   const [tableCapacity, setTableCapacity] = useState<number>(8);
   const [traditions, setTraditions] = useState<WeddingTradition[]>([

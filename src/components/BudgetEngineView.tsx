@@ -1,12 +1,26 @@
+/**
+ * @file PlanAura Budget Intelligence Engine View
+ * @description Interactive financial ledger with benchmark allocation caps, variance calculations, and over-budget warnings.
+ * @module src/components/BudgetEngineView
+ */
+
 import React, { useState } from 'react';
 import { Wallet, AlertTriangle, Lightbulb, CheckCircle2 } from 'lucide-react';
 import { BudgetAnalysis, BudgetItem } from '../types';
 
-interface BudgetEngineViewProps {
+/**
+ * Properties for BudgetEngineView component.
+ */
+export interface BudgetEngineViewProps {
+  /** Active budget ledger and category calculations */
   budget: BudgetAnalysis;
+  /** Callback fired when an expense item or allocation changes */
   onUpdateBudget: (updated: BudgetAnalysis) => void;
 }
 
+/**
+ * BudgetEngineView presents interactive expense tracking, category progress bars, and cost-optimization recommendations.
+ */
 export const BudgetEngineView: React.FC<BudgetEngineViewProps> = ({ budget, onUpdateBudget }) => {
   const [items, setItems] = useState<BudgetItem[]>(budget.items);
   const [currency, setCurrency] = useState<string>(budget.currency || 'USD');

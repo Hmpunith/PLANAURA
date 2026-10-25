@@ -1,11 +1,26 @@
+/**
+ * @file PlanAura Vendor Checklist & Procurement View
+ * @description 5-stage procurement pipeline tracker managing vendor contracts, deposit liabilities, and COI verification.
+ * @module src/components/VendorChecklistView
+ */
+
 import React, { useState } from 'react';
 import { ClipboardList, CheckCircle2, ShieldCheck } from 'lucide-react';
 import { VendorItem, VendorPipelineMetrics, VendorStatus } from '../types';
 
-interface VendorChecklistViewProps {
+/**
+ * Properties for VendorChecklistView component.
+ */
+export interface VendorChecklistViewProps {
+  /** Array of vendor profiles in the active event */
   vendors: VendorItem[];
+  /** Aggregate financial and readiness metrics */
   metrics: VendorPipelineMetrics;
-  onUpdateVendor: (vendorId: string, newStatus: VendorStatus) => void;
+  /** Callback fired when a vendor lifecycle stage changes */
+  onUpdateVendor?: (vendorId: string, newStatus: VendorStatus) => void;
+  /** Alias callback for vendor lifecycle stage updates */
+  onStatusChange?: (vendorId: string, newStatus: VendorStatus) => void;
+  /** Active currency symbol or ISO string */
   currency?: string;
 }
 
@@ -45,13 +60,18 @@ const STATUS_CONFIG: Record<
   },
 };
 
+/**
+ * VendorChecklistView renders the 5-stage procurement pipeline, deposit tracking, and insurance verification badges.
+ */
 export const VendorChecklistView: React.FC<VendorChecklistViewProps> = ({
   vendors,
   metrics,
   onUpdateVendor,
+  onStatusChange,
   currency = 'USD',
 }) => {
   const [filter, setFilter] = useState<'all' | VendorStatus>('all');
+  const triggerStatusChange = onUpdateVendor || onStatusChange;
 
   const filteredVendors = filter === 'all' ? vendors : vendors.filter((v) => v.status === filter);
 
@@ -170,7 +190,10 @@ export const VendorChecklistView: React.FC<VendorChecklistViewProps> = ({
 
                 <select
                   value={vendor.status}
-                  onChange={(e) => onUpdateVendor(vendor.id, e.target.value as VendorStatus)}
+                  onChange={(e) =>
+                    triggerStatusChange &&
+                    triggerStatusChange(vendor.id, e.target.value as VendorStatus)
+                  }
                   className={`text-xs px-2.5 py-1 rounded-lg font-bold border ${cfg.bg} ${cfg.text} ${cfg.border} focus:outline-none focus:ring-1 focus:ring-amber-400`}
                   aria-label={`Update status for ${vendor.name}`}
                 >

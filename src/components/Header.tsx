@@ -1,14 +1,30 @@
+/**
+ * @file PlanAura Header Component
+ * @description Master navigation banner with brand emblem, category switcher, and configuration trigger.
+ * @module src/components/Header
+ */
+
 import React from 'react';
 import { Sparkles, HeartHandshake, Cake, Users, ShieldCheck } from 'lucide-react';
 import { EventCategory } from '../types';
 
-interface HeaderProps {
+/**
+ * Properties for Header component.
+ */
+export interface HeaderProps {
+  /** Active event celebration category */
   currentCategory: EventCategory;
+  /** Callback fired when user clicks a category switcher pill */
   onCategoryChange: (category: EventCategory) => void;
+  /** Callback opening the custom event configuration modal */
   onOpenConfigModal: () => void;
+  /** Current celebration title */
   eventName: string;
 }
 
+/**
+ * Global application header adhering to HTML5 banner landmark semantics.
+ */
 export const Header: React.FC<HeaderProps> = ({
   currentCategory,
   onCategoryChange,
@@ -44,8 +60,8 @@ export const Header: React.FC<HeaderProps> = ({
         {/* Quick Category Switcher */}
         <div
           role="group"
-          aria-label="Event Category Presets"
-          className="flex items-center space-x-1 p-1 bg-slate-900/90 rounded-xl border border-slate-800"
+          aria-label="Event category selection"
+          className="hidden md:flex items-center p-1 bg-slate-900/80 rounded-xl border border-slate-800"
         >
           <button
             type="button"

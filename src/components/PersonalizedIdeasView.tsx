@@ -1,18 +1,36 @@
+/**
+ * @file PlanAura Personalized Ideas & Theming View
+ * @description Curated aesthetic themes, 4-swatch chromatic palettes with hex export, and signature culinary menus.
+ * @module src/components/PersonalizedIdeasView
+ */
+
 import React, { useState } from 'react';
 import { Lightbulb, Palette, Utensils, Sparkles, Copy, Check, MessageSquare } from 'lucide-react';
 import { IdeaConcept } from '../types';
 
-interface PersonalizedIdeasViewProps {
-  ideasVault: IdeaConcept[];
+/**
+ * Properties for PersonalizedIdeasView component.
+ */
+export interface PersonalizedIdeasViewProps {
+  /** Array of curated celebration aesthetic concepts */
+  ideasVault?: IdeaConcept[];
+  /** Alias array of curated concepts */
+  curatedVault?: IdeaConcept[];
+  /** Bespoke AI-synthesized theme concept */
   bespokeConcept: IdeaConcept;
 }
 
+/**
+ * PersonalizedIdeasView displays curated theme vaults, interactive color palettes, culinary pairings, and invitation wording.
+ */
 export const PersonalizedIdeasView: React.FC<PersonalizedIdeasViewProps> = ({
   ideasVault,
+  curatedVault,
   bespokeConcept,
 }) => {
+  const effectiveVault = curatedVault || ideasVault || [];
   const [selectedConcept, setSelectedConcept] = useState<IdeaConcept>(
-    bespokeConcept || ideasVault[0]
+    bespokeConcept || effectiveVault[0]
   );
   const [copiedHex, setCopiedHex] = useState<string | null>(null);
   const [copiedInvite, setCopiedInvite] = useState<boolean>(false);
@@ -70,7 +88,7 @@ export const PersonalizedIdeasView: React.FC<PersonalizedIdeasViewProps> = ({
           <span>Bespoke Synthesis</span>
         </button>
 
-        {ideasVault.map((concept) => (
+        {effectiveVault.map((concept) => (
           <button
             key={concept.id}
             type="button"

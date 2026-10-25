@@ -1,43 +1,71 @@
+/**
+ * @file PlanAura Event Configuration Modal Component
+ * @description Accessible dialog allowing users to calibrate event categories, headcount, target budgets, and vibes.
+ * @module src/components/EventConfigModal
+ */
+
 import React, { useState } from 'react';
 import { X, Sparkles, HeartHandshake, Cake, Users } from 'lucide-react';
 import { EventCategory } from '../types';
 
-interface EventConfigModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onSave: (config: {
-    eventType: EventCategory;
-    eventName: string;
-    eventDate: string;
-    totalBudget: number;
-    currency: string;
-    guestCount: number;
-    vibe: string;
-  }) => void;
-  initialValues: {
-    eventType: EventCategory;
-    eventName: string;
-    eventDate: string;
-    totalBudget: number;
-    currency: string;
-    guestCount: number;
-    vibe: string;
-  };
+export interface EventConfigPayload {
+  eventType: EventCategory;
+  eventName: string;
+  eventDate: string;
+  totalBudget: number;
+  currency: string;
+  guestCount: number;
+  vibe: string;
 }
 
+/**
+ * Properties for EventConfigModal component.
+ */
+export interface EventConfigModalProps {
+  /** Visibility toggle flag */
+  isOpen?: boolean;
+  /** Callback to dismiss modal */
+  onClose: () => void;
+  /** Callback fired upon submitting new event blueprint parameters */
+  onSave?: (config: EventConfigPayload) => void;
+  /** Alias callback for configuration submission */
+  onSubmit?: (config: EventConfigPayload) => void;
+  /** Current event configuration parameters */
+  initialValues?: EventConfigPayload;
+  /** Alias for initial event configuration parameters */
+  currentConfig?: EventConfigPayload;
+}
+
+/**
+ * EventConfigModal provides an accessible modal dialog for live input testing and blueprint scaffolding.
+ */
 export const EventConfigModal: React.FC<EventConfigModalProps> = ({
-  isOpen,
+  isOpen = true,
   onClose,
   onSave,
+  onSubmit,
   initialValues,
+  currentConfig,
 }) => {
-  const [eventType, setEventType] = useState<EventCategory>(initialValues.eventType);
-  const [eventName, setEventName] = useState(initialValues.eventName);
-  const [eventDate, setEventDate] = useState(initialValues.eventDate.split('T')[0]);
-  const [totalBudget, setTotalBudget] = useState(initialValues.totalBudget);
-  const [currency, setCurrency] = useState(initialValues.currency);
-  const [guestCount, setGuestCount] = useState(initialValues.guestCount);
-  const [vibe, setVibe] = useState(initialValues.vibe);
+  const config = currentConfig || initialValues || {
+    eventType: 'wedding',
+    eventName: 'The Grand Celebration',
+    eventDate: new Date(Date.now() + 180 * 24 * 60 * 60 * 1000).toISOString(),
+    totalBudget: 25000,
+    currency: 'USD',
+    guestCount: 100,
+    vibe: 'Elegant and warm',
+  };
+
+  const [eventType, setEventType] = useState<EventCategory>(config.eventType);
+  const [eventName, setEventName] = useState(config.eventName);
+  const [eventDate, setEventDate] = useState(
+    config.eventDate ? config.eventDate.split('T')[0] : '2026-11-20'
+  );
+  const [totalBudget, setTotalBudget] = useState(config.totalBudget);
+  const [currency, setCurrency] = useState(config.currency);
+  const [guestCount, setGuestCount] = useState(config.guestCount);
+  const [vibe, setVibe] = useState(config.vibe);
 
   if (!isOpen) {
     return null;
@@ -45,15 +73,19 @@ export const EventConfigModal: React.FC<EventConfigModalProps> = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSave({
+    const payload: EventConfigPayload = {
       eventType,
-      eventName,
+      eventName: eventName.trim() || 'My Celebration',
       eventDate: new Date(eventDate).toISOString(),
-      totalBudget: Number(totalBudget),
+      totalBudget: Number(totalBudget) || 10000,
       currency,
-      guestCount: Number(guestCount),
-      vibe,
-    });
+      guestCount: Number(guestCount) || 50,
+      vibe: vibe.trim() || 'Celebratory',
+    };
+    const handler = onSubmit || onSave;
+    if (handler) {
+      handler(payload);
+    }
     onClose();
   };
 

@@ -1,8 +1,18 @@
+/**
+ * @file PlanAura Community Hub View
+ * @description Civic festival suite coordinating municipal permits, volunteer zone rosters, and crowd safety ratios.
+ * @module src/components/CommunityHub
+ */
+
 import React, { useState } from 'react';
 import { Users, FileCheck, ShieldAlert, HeartHandshake, CheckCircle2, Clock } from 'lucide-react';
 import { EventBlueprint } from '../types';
 
-interface CommunityHubProps {
+/**
+ * Properties for CommunityHub component.
+ */
+export interface CommunityHubProps {
+  /** Active event blueprint providing community attendance and targets */
   blueprint: EventBlueprint;
 }
 
@@ -15,6 +25,9 @@ interface PermitItem {
   notes: string;
 }
 
+/**
+ * CommunityHub provides municipal permit checklists, volunteer-to-attendee ratios, and sponsorship progress bars.
+ */
 export const CommunityHub: React.FC<CommunityHubProps> = ({ blueprint }) => {
   const [permits, setPermits] = useState<PermitItem[]>([
     {

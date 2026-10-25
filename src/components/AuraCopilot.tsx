@@ -1,9 +1,21 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Bot, Send, Sparkles, User, RefreshCw } from 'lucide-react';
-import { ApiService } from '../services/apiService';
-import { EventBlueprint } from '../types';
+/**
+ * @file PlanAura Aura Copilot Component
+ * @description Interactive GenAI event planning director interface grounded with Google Gemini 2.5 Flash.
+ * @module src/components/AuraCopilot
+ */
 
-interface AuraCopilotProps {
+import React, { useState, useRef, useEffect } from 'react';
+import { Send, Bot, Sparkles, User, RefreshCw } from 'lucide-react';
+import { EventBlueprint } from '../types';
+import { ApiService } from '../services/apiService';
+import { renderFormattedMessage } from '../utils/markdownRenderer';
+import { STARTER_PROMPTS } from '../constants/prompts';
+
+/**
+ * Properties for AuraCopilot component.
+ */
+export interface AuraCopilotProps {
+  /** Active event blueprint providing contextual grounding */
   blueprint: EventBlueprint;
 }
 
@@ -14,205 +26,9 @@ interface Message {
   timestamp: string;
 }
 
-const STARTER_PROMPTS = [
-  'How should I allocate my budget between catering and photography?',
-  'Generate an hour-by-hour day-of timeline for my celebration',
-  'What contracts and vendor clauses must I insist on before signing?',
-  'Suggest 3 creative signature cocktail and appetizer pairings',
-];
-
 /**
- * Formats Markdown syntax into rich styled React elements, stripping raw asterisks (***, **) and hashes (###, ##, #).
+ * AuraCopilot provides an interactive AI conversational copilot with markdown stream rendering and prompt suggestions.
  */
-const renderFormattedMessage = (content: string): React.ReactNode => {
-  const lines = content.split('\n');
-  const renderedElements: React.ReactNode[] = [];
-  let currentList: React.ReactNode[] = [];
-  let inQuote = false;
-  let quoteText: string[] = [];
-
-  const flushList = (key: string) => {
-    if (currentList.length > 0) {
-      renderedElements.push(
-        <ul key={key} className="space-y-1.5 my-2 pl-1">
-          {currentList}
-        </ul>
-      );
-      currentList = [];
-    }
-  };
-
-  const flushQuote = (key: string) => {
-    if (quoteText.length > 0) {
-      renderedElements.push(
-        <div
-          key={key}
-          className="my-3 p-3 rounded-xl bg-amber-500/10 border-l-4 border-amber-400 text-amber-200 text-xs sm:text-sm leading-relaxed"
-        >
-          {formatInline(quoteText.join(' '))}
-        </div>
-      );
-      quoteText = [];
-      inQuote = false;
-    }
-  };
-
-  const formatInline = (text: string): React.ReactNode => {
-    // Matches ***bold-italic***, **bold**, *italic*, `code`
-    const tokenRegex = /(\*\*\*[^*]+\*\*\*|\*\*[^*]+\*\*|\*[^*]+\*|`[^`]+`)/g;
-    const parts = text.split(tokenRegex);
-    return parts.map((part, index) => {
-      if (part.startsWith('***') && part.endsWith('***') && part.length >= 6) {
-        return (
-          <strong key={index} className="font-bold italic text-amber-300">
-            {part.slice(3, -3)}
-          </strong>
-        );
-      }
-      if (part.startsWith('**') && part.endsWith('**') && part.length >= 4) {
-        return (
-          <strong key={index} className="font-bold text-amber-300">
-            {part.slice(2, -2)}
-          </strong>
-        );
-      }
-      if (part.startsWith('*') && part.endsWith('*') && part.length >= 2) {
-        return (
-          <em key={index} className="italic text-slate-300">
-            {part.slice(1, -1)}
-          </em>
-        );
-      }
-      if (part.startsWith('`') && part.endsWith('`') && part.length >= 2) {
-        return (
-          <code
-            key={index}
-            className="px-1.5 py-0.5 rounded bg-slate-800 text-amber-300 font-mono text-xs"
-          >
-            {part.slice(1, -1)}
-          </code>
-        );
-      }
-      // Safety: strip any lingering stray triple or double asterisks from raw text
-      return part.replace(/\*{2,3}/g, '');
-    });
-  };
-
-  lines.forEach((line, i) => {
-    const trimmed = line.trim();
-
-    if (!trimmed) {
-      flushList(`l-${i}`);
-      return;
-    }
-
-    // Dividers: --- or *** or ___
-    if (/^(\*{3,}|-{3,}|_{3,})$/.test(trimmed)) {
-      flushList(`l-${i}`);
-      renderedElements.push(<hr key={i} className="my-3 border-slate-800" />);
-      return;
-    }
-
-    // Blockquote handling (e.g. > 💡 Cost-Saving Tip)
-    if (trimmed.startsWith('>')) {
-      flushList(`l-${i}`);
-      inQuote = true;
-      quoteText.push(trimmed.replace(/^>\s*/, ''));
-      return;
-    } else if (inQuote) {
-      flushQuote(`q-${i}`);
-    }
-
-    // Header 1-4 (#, ##, ###, ####)
-    const headerMatch = trimmed.match(/^(#{1,6})\s*(.*)$/);
-    if (headerMatch) {
-      flushList(`l-${i}`);
-      const level = headerMatch[1].length;
-      const headingContent = formatInline(headerMatch[2]);
-      if (level === 1) {
-        renderedElements.push(
-          <h1
-            key={i}
-            className="text-base sm:text-lg font-bold text-amber-300 mt-3 mb-1.5 flex items-center space-x-1"
-          >
-            {headingContent}
-          </h1>
-        );
-      } else if (level === 2) {
-        renderedElements.push(
-          <h2
-            key={i}
-            className="text-sm sm:text-base font-bold text-white mt-3 mb-1.5 flex items-center space-x-1"
-          >
-            {headingContent}
-          </h2>
-        );
-      } else if (level === 3) {
-        renderedElements.push(
-          <h3
-            key={i}
-            className="text-xs sm:text-sm font-bold text-amber-200 mt-2.5 mb-1 flex items-center space-x-1"
-          >
-            {headingContent}
-          </h3>
-        );
-      } else {
-        renderedElements.push(
-          <h4 key={i} className="text-xs font-semibold text-slate-200 mt-2 mb-1">
-            {headingContent}
-          </h4>
-        );
-      }
-      return;
-    }
-
-    // Bullet points (- or * or +)
-    if (/^[-*+]\s+(.*)$/.test(trimmed)) {
-      const match = trimmed.match(/^[-*+]\s+(.*)$/);
-      const itemText = match ? match[1] : trimmed.slice(2);
-      currentList.push(
-        <li
-          key={`li-${i}`}
-          className="flex items-start space-x-2 text-xs sm:text-sm text-slate-200"
-        >
-          <span className="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0 mt-1.5" />
-          <span>{formatInline(itemText)}</span>
-        </li>
-      );
-      return;
-    }
-
-    // Numbered lists (1., 2., etc)
-    const numMatch = trimmed.match(/^(\d+\.)\s*(.*)$/);
-    if (numMatch) {
-      flushList(`l-${i}`);
-      currentList.push(
-        <li
-          key={`ol-${i}`}
-          className="flex items-start space-x-2 text-xs sm:text-sm text-slate-200 my-0.5"
-        >
-          <span className="font-mono text-amber-400 font-bold shrink-0">{numMatch[1]}</span>
-          <span>{formatInline(numMatch[2])}</span>
-        </li>
-      );
-      return;
-    }
-
-    flushList(`l-${i}`);
-
-    renderedElements.push(
-      <p key={i} className="text-xs sm:text-sm text-slate-200 my-1 leading-relaxed">
-        {formatInline(trimmed)}
-      </p>
-    );
-  });
-
-  flushList('final-list');
-  flushQuote('final-quote');
-
-  return renderedElements;
-};
-
 export const AuraCopilot: React.FC<AuraCopilotProps> = ({ blueprint }) => {
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -309,8 +125,7 @@ export const AuraCopilot: React.FC<AuraCopilotProps> = ({ blueprint }) => {
               </span>
             </h2>
             <p className="text-xs text-slate-400">
-              Context: {blueprint.eventType.toUpperCase()} • {blueprint.guestCount} Guests •{' '}
-              {blueprint.currency} {blueprint.budget.totalBudget.toLocaleString()}
+              Personalized guidance for {blueprint.eventName}
             </p>
           </div>
         </div>
@@ -330,21 +145,16 @@ export const AuraCopilot: React.FC<AuraCopilotProps> = ({ blueprint }) => {
               },
             ])
           }
-          className="flex items-center space-x-1.5 px-3 py-1.5 text-xs text-slate-400 hover:text-slate-200 bg-slate-800/60 hover:bg-slate-800 rounded-lg border border-slate-700/60 transition-colors"
+          className="p-2 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800 transition-colors"
           title="Reset conversation"
+          aria-label="Reset conversation"
         >
-          <RefreshCw className="w-3.5 h-3.5" aria-hidden="true" />
-          <span>Clear Chat</span>
+          <RefreshCw className="w-4 h-4" />
         </button>
       </div>
 
       {/* Message Stream */}
-      <div
-        className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4"
-        role="log"
-        aria-live="polite"
-        aria-label="Chat messages"
-      >
+      <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4">
         {messages.map((m) => {
           const isAi = m.role === 'model';
           return (

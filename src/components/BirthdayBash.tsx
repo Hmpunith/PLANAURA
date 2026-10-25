@@ -1,13 +1,26 @@
+/**
+ * @file PlanAura Birthday Bash View
+ * @description Milestone birthday suite offering automated cake tier calculators and curated milestone themes.
+ * @module src/components/BirthdayBash
+ */
+
 import React, { useState } from 'react';
 import { Cake, Sparkles, PartyPopper } from 'lucide-react';
 import { EventBlueprint } from '../types';
 
-interface BirthdayBashProps {
+/**
+ * Properties for BirthdayBash component.
+ */
+export interface BirthdayBashProps {
+  /** Active event blueprint providing guest counts and celebration metadata */
   blueprint: EventBlueprint;
 }
 
 type MilestoneAge = '1st' | '18th' | '21st' | '30th' | '50th' | 'custom';
 
+/**
+ * BirthdayBash presents milestone age presets, dynamic cake tier geometry, and group icebreaker games.
+ */
 export const BirthdayBash: React.FC<BirthdayBashProps> = ({ blueprint }) => {
   const [selectedMilestone, setSelectedMilestone] = useState<MilestoneAge>('30th');
   const customAge = 30;

@@ -1,11 +1,24 @@
+/**
+ * @file PlanAura Timeline Execution View
+ * @description Milestone progress tracker and minute-by-minute day-of run-of-show call-sheet scheduler.
+ * @module src/components/TimelineView
+ */
+
 import React, { useState } from 'react';
 import { Clock, CheckCircle2, Circle, Printer, Calendar } from 'lucide-react';
 import { Milestone, TimelinePackage } from '../types';
 
-interface TimelineViewProps {
+/**
+ * Properties for TimelineView component.
+ */
+export interface TimelineViewProps {
+  /** Timeline milestones and day-of execution schedule */
   timeline: TimelinePackage;
 }
 
+/**
+ * TimelineView presents countdown milestones with interactive completion toggles and printable call-sheets.
+ */
 export const TimelineView: React.FC<TimelineViewProps> = ({ timeline }) => {
   const [milestones, setMilestones] = useState<Milestone[]>(timeline.milestones);
 

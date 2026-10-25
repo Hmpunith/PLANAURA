@@ -1,9 +1,15 @@
 /**
  * @file PlanAura Client Types & Data Contracts
+ * @description Master data models and TypeScript contracts for blueprints, budgets, timelines, and vendors.
+ * @module src/types
  */
 
+/** Event classification categories supported by PlanAura */
 export type EventCategory = 'wedding' | 'birthday' | 'community';
 
+/**
+ * Individual expense line item within the budget ledger.
+ */
 export interface BudgetItem {
   id: string;
   category: string;
@@ -14,6 +20,9 @@ export interface BudgetItem {
   notes?: string;
 }
 
+/**
+ * Comprehensive financial analysis and category allocation breakdown.
+ */
 export interface BudgetAnalysis {
   currency: string;
   totalBudget: number;
@@ -31,6 +40,9 @@ export interface BudgetAnalysis {
   items: BudgetItem[];
 }
 
+/**
+ * Milestone countdown task checkpoint.
+ */
 export interface Milestone {
   id: string;
   phase: '6_months_plus' | '3_to_6_months' | '1_to_2_months' | 'final_weeks' | 'day_of';
@@ -42,6 +54,9 @@ export interface Milestone {
   category: 'logistics' | 'vendor' | 'design' | 'guest';
 }
 
+/**
+ * Minute-by-minute day-of execution itinerary line item.
+ */
 export interface DayOfScheduleItem {
   id: string;
   time: string;
@@ -51,6 +66,9 @@ export interface DayOfScheduleItem {
   notes: string;
 }
 
+/**
+ * Comprehensive milestone countdown and run-of-show schedule package.
+ */
 export interface TimelinePackage {
   eventType: EventCategory;
   eventDate: string;
@@ -59,8 +77,12 @@ export interface TimelinePackage {
   daysRemaining: number;
 }
 
+/** Vendor procurement lifecycle progression status */
 export type VendorStatus = 'contacted' | 'quoted' | 'contract_pending' | 'booked' | 'paid';
 
+/**
+ * Vendor profile tracking procurement milestones, deposit liabilities, and insurance.
+ */
 export interface VendorItem {
   id: string;
   category: string;
@@ -78,6 +100,9 @@ export interface VendorItem {
   notes: string;
 }
 
+/**
+ * Summary metrics of the active vendor procurement pipeline.
+ */
 export interface VendorPipelineMetrics {
   totalVendors: number;
   bookedCount: number;
@@ -88,6 +113,9 @@ export interface VendorPipelineMetrics {
   remainingLiability: number;
 }
 
+/**
+ * Creative concept featuring aesthetic theme, color palette, and culinary pairings.
+ */
 export interface IdeaConcept {
   id: string;
   themeTitle: string;
@@ -104,6 +132,9 @@ export interface IdeaConcept {
   invitationWordingDraft: string;
 }
 
+/**
+ * Master aggregate data structure representing a complete celebration blueprint.
+ */
 export interface EventBlueprint {
   eventName: string;
   eventType: EventCategory;
