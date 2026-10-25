@@ -21,6 +21,141 @@ const STARTER_PROMPTS = [
   'Suggest 3 creative signature cocktail and appetizer pairings',
 ];
 
+/**
+ * Formats Markdown syntax into rich styled React elements, stripping raw asterisks (**) and hashes (###).
+ */
+const renderFormattedMessage = (content: string): React.ReactNode => {
+  const lines = content.split('\n');
+  const renderedElements: React.ReactNode[] = [];
+  let currentList: React.ReactNode[] = [];
+  let inQuote = false;
+  let quoteText: string[] = [];
+
+  const flushList = (key: string) => {
+    if (currentList.length > 0) {
+      renderedElements.push(
+        <ul key={key} className="space-y-1.5 my-2 pl-1">
+          {currentList}
+        </ul>
+      );
+      currentList = [];
+    }
+  };
+
+  const flushQuote = (key: string) => {
+    if (quoteText.length > 0) {
+      renderedElements.push(
+        <div
+          key={key}
+          className="my-3 p-3 rounded-xl bg-amber-500/10 border-l-4 border-amber-400 text-amber-200 text-xs sm:text-sm leading-relaxed"
+        >
+          {formatInline(quoteText.join(' '))}
+        </div>
+      );
+      quoteText = [];
+      inQuote = false;
+    }
+  };
+
+  const formatInline = (text: string): React.ReactNode => {
+    // Matches **bold** or *italic*
+    const parts = text.split(/(\*\*[^*]+\*\*|\*[^*]+\*)/g);
+    return parts.map((part, index) => {
+      if (part.startsWith('**') && part.endsWith('**') && part.length >= 4) {
+        return (
+          <strong key={index} className="font-bold text-amber-300">
+            {part.slice(2, -2)}
+          </strong>
+        );
+      }
+      if (part.startsWith('*') && part.endsWith('*') && part.length >= 2) {
+        return (
+          <em key={index} className="italic text-slate-300">
+            {part.slice(1, -1)}
+          </em>
+        );
+      }
+      return part;
+    });
+  };
+
+  lines.forEach((line, i) => {
+    const trimmed = line.trim();
+
+    // Blockquote handling (e.g. > 💡 Cost-Saving Tip)
+    if (trimmed.startsWith('>')) {
+      flushList(`l-${i}`);
+      inQuote = true;
+      quoteText.push(trimmed.replace(/^>\s*/, ''));
+      return;
+    } else if (inQuote) {
+      flushQuote(`q-${i}`);
+    }
+
+    // Header 3 (###)
+    if (trimmed.startsWith('### ')) {
+      flushList(`l-${i}`);
+      renderedElements.push(
+        <h3 key={i} className="text-sm sm:text-base font-bold text-white mt-2.5 mb-1.5 flex items-center space-x-1">
+          {formatInline(trimmed.slice(4))}
+        </h3>
+      );
+      return;
+    }
+
+    // Header 2 (##)
+    if (trimmed.startsWith('## ')) {
+      flushList(`l-${i}`);
+      renderedElements.push(
+        <h2 key={i} className="text-base sm:text-lg font-bold text-white mt-3 mb-1.5">
+          {formatInline(trimmed.slice(3))}
+        </h2>
+      );
+      return;
+    }
+
+    // Bullet points (- or *)
+    if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
+      const itemText = trimmed.slice(2);
+      currentList.push(
+        <li key={`li-${i}`} className="flex items-start space-x-2 text-xs sm:text-sm text-slate-200">
+          <span className="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0 mt-1.5" />
+          <span>{formatInline(itemText)}</span>
+        </li>
+      );
+      return;
+    }
+
+    // Numbered lists (1., 2., etc)
+    if (/^\d+\.\s/.test(trimmed)) {
+      flushList(`l-${i}`);
+      const numMatch = trimmed.match(/^(\d+\.)\s*(.*)$/);
+      currentList.push(
+        <li key={`ol-${i}`} className="flex items-start space-x-2 text-xs sm:text-sm text-slate-200 my-0.5">
+          <span className="font-mono text-amber-400 font-bold shrink-0">{numMatch?.[1]}</span>
+          <span>{formatInline(numMatch?.[2] || '')}</span>
+        </li>
+      );
+      return;
+    }
+
+    flushList(`l-${i}`);
+
+    if (trimmed.length > 0) {
+      renderedElements.push(
+        <p key={i} className="text-xs sm:text-sm text-slate-200 my-1 leading-relaxed">
+          {formatInline(trimmed)}
+        </p>
+      );
+    }
+  });
+
+  flushList('final-list');
+  flushQuote('final-quote');
+
+  return renderedElements;
+};
+
 export const AuraCopilot: React.FC<AuraCopilotProps> = ({ blueprint }) => {
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -169,7 +304,9 @@ export const AuraCopilot: React.FC<AuraCopilotProps> = ({ blueprint }) => {
                     : 'bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 font-medium'
                 }`}
               >
-                <div className="whitespace-pre-wrap">{m.content}</div>
+                <div className="leading-relaxed">
+                  {isAi ? renderFormattedMessage(m.content) : m.content}
+                </div>
                 <div
                   className={`text-[10px] mt-1.5 flex ${
                     isAi ? 'text-slate-500' : 'text-slate-800 justify-end'
