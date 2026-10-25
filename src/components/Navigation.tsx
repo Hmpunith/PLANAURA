@@ -67,8 +67,12 @@ export const Navigation: React.FC<NavigationProps> = ({
   onSelectTab,
 }) => {
   const handleSelect = (tab: ActiveTab) => {
-    if (onTabChange) onTabChange(tab);
-    if (onSelectTab) onSelectTab(tab);
+    if (onTabChange) {
+      onTabChange(tab);
+    }
+    if (onSelectTab) {
+      onSelectTab(tab);
+    }
   };
 
   return (
