@@ -45,11 +45,46 @@ const INITIAL_BLUEPRINT: EventBlueprint = {
       'Consider buffet-style or family-style service to trim per-guest catering costs by 18-25%.',
     ],
     items: [
-      { id: 'b-1', category: 'Venue & Catering', name: 'Reception Ballroom & Dinner', allocatedAmount: 11250, actualAmount: 8500, status: 'committed' },
-      { id: 'b-2', category: 'Photography & Video', name: '8-Hour Photo & Cinema', allocatedAmount: 3000, actualAmount: 2500, status: 'committed' },
-      { id: 'b-3', category: 'Music & Entertainment', name: 'Ceremony PA & Reception DJ', allocatedAmount: 2500, actualAmount: 0, status: 'quoted' },
-      { id: 'b-4', category: 'Floral & Decor', name: 'Centerpieces & Arch', allocatedAmount: 2500, actualAmount: 0, status: 'quoted' },
-      { id: 'b-5', category: 'Contingency Buffer', name: 'Emergency Overtime Reserve', allocatedAmount: 1250, actualAmount: 0, status: 'pending' },
+      {
+        id: 'b-1',
+        category: 'Venue & Catering',
+        name: 'Reception Ballroom & Dinner',
+        allocatedAmount: 11250,
+        actualAmount: 8500,
+        status: 'committed',
+      },
+      {
+        id: 'b-2',
+        category: 'Photography & Video',
+        name: '8-Hour Photo & Cinema',
+        allocatedAmount: 3000,
+        actualAmount: 2500,
+        status: 'committed',
+      },
+      {
+        id: 'b-3',
+        category: 'Music & Entertainment',
+        name: 'Ceremony PA & Reception DJ',
+        allocatedAmount: 2500,
+        actualAmount: 0,
+        status: 'quoted',
+      },
+      {
+        id: 'b-4',
+        category: 'Floral & Decor',
+        name: 'Centerpieces & Arch',
+        allocatedAmount: 2500,
+        actualAmount: 0,
+        status: 'quoted',
+      },
+      {
+        id: 'b-5',
+        category: 'Contingency Buffer',
+        name: 'Emergency Overtime Reserve',
+        allocatedAmount: 1250,
+        actualAmount: 0,
+        status: 'pending',
+      },
     ],
   },
   timeline: {
@@ -57,26 +92,149 @@ const INITIAL_BLUEPRINT: EventBlueprint = {
     eventDate: new Date(Date.now() + 180 * 24 * 60 * 60 * 1000).toISOString(),
     daysRemaining: 180,
     milestones: [
-      { id: 'm-1', phase: '6_months_plus', timeframeLabel: '6+ Months Prior', title: 'Lock Primary Venue & Ceremony Grounds', description: 'Sign contracts for ballroom and backup weather plan.', completed: true, category: 'logistics' },
-      { id: 'm-2', phase: '6_months_plus', timeframeLabel: '6+ Months Prior', title: 'Retain Core Photographer & Videographer', description: 'Schedule engagement shoot and verify portfolio.', completed: true, category: 'vendor' },
-      { id: 'm-3', phase: '3_to_6_months', timeframeLabel: '3 to 6 Months Prior', title: 'Send Save-the-Dates & Finalize Guest List', description: 'Mail formal save-the-dates and launch wedding website.', completed: false, category: 'guest' },
-      { id: 'm-4', phase: '1_to_2_months', timeframeLabel: '1 to 2 Months Prior', title: 'RSVP Cutoff & Menu Finalization', description: 'Submit dietary numbers to executive chef.', completed: false, category: 'guest' },
-      { id: 'm-5', phase: 'final_weeks', timeframeLabel: '2 Weeks Prior', title: 'Final Seating Chart & Vendor Call Sheets', description: 'Distribute timeline to coordinator and DJ.', completed: false, category: 'logistics' },
+      {
+        id: 'm-1',
+        phase: '6_months_plus',
+        timeframeLabel: '6+ Months Prior',
+        title: 'Lock Primary Venue & Ceremony Grounds',
+        description: 'Sign contracts for ballroom and backup weather plan.',
+        completed: true,
+        category: 'logistics',
+      },
+      {
+        id: 'm-2',
+        phase: '6_months_plus',
+        timeframeLabel: '6+ Months Prior',
+        title: 'Retain Core Photographer & Videographer',
+        description: 'Schedule engagement shoot and verify portfolio.',
+        completed: true,
+        category: 'vendor',
+      },
+      {
+        id: 'm-3',
+        phase: '3_to_6_months',
+        timeframeLabel: '3 to 6 Months Prior',
+        title: 'Send Save-the-Dates & Finalize Guest List',
+        description: 'Mail formal save-the-dates and launch wedding website.',
+        completed: false,
+        category: 'guest',
+      },
+      {
+        id: 'm-4',
+        phase: '1_to_2_months',
+        timeframeLabel: '1 to 2 Months Prior',
+        title: 'RSVP Cutoff & Menu Finalization',
+        description: 'Submit dietary numbers to executive chef.',
+        completed: false,
+        category: 'guest',
+      },
+      {
+        id: 'm-5',
+        phase: 'final_weeks',
+        timeframeLabel: '2 Weeks Prior',
+        title: 'Final Seating Chart & Vendor Call Sheets',
+        description: 'Distribute timeline to coordinator and DJ.',
+        completed: false,
+        category: 'logistics',
+      },
     ],
     dayOfRunOfShow: [
-      { id: 'ros-1', time: '09:00 AM', activity: 'Bridal Suite Load-In & Hair/Makeup', leadPerson: 'Lead Stylist', location: 'Bridal Suite', notes: 'Mimosa brunch provided.' },
-      { id: 'ros-2', time: '01:30 PM', activity: 'First Look Photo Session', leadPerson: 'Photographer', location: 'Rose Garden', notes: 'Couple and wedding party portraits.' },
-      { id: 'ros-3', time: '04:30 PM', activity: 'Wedding Ceremony & Vows', leadPerson: 'Officiant', location: 'Main Lawn', notes: 'Processional music, vows exchange.' },
-      { id: 'ros-4', time: '05:30 PM', activity: 'Cocktail Hour & Hors d’oeuvres', leadPerson: 'Catering Lead', location: 'Terrace', notes: 'Signature Aperol Spritz.' },
-      { id: 'ros-5', time: '06:45 PM', activity: 'Grand Entrance & First Dance', leadPerson: 'Reception DJ', location: 'Grand Ballroom', notes: 'Toasts and dinner service.' },
+      {
+        id: 'ros-1',
+        time: '09:00 AM',
+        activity: 'Bridal Suite Load-In & Hair/Makeup',
+        leadPerson: 'Lead Stylist',
+        location: 'Bridal Suite',
+        notes: 'Mimosa brunch provided.',
+      },
+      {
+        id: 'ros-2',
+        time: '01:30 PM',
+        activity: 'First Look Photo Session',
+        leadPerson: 'Photographer',
+        location: 'Rose Garden',
+        notes: 'Couple and wedding party portraits.',
+      },
+      {
+        id: 'ros-3',
+        time: '04:30 PM',
+        activity: 'Wedding Ceremony & Vows',
+        leadPerson: 'Officiant',
+        location: 'Main Lawn',
+        notes: 'Processional music, vows exchange.',
+      },
+      {
+        id: 'ros-4',
+        time: '05:30 PM',
+        activity: 'Cocktail Hour & Hors d’oeuvres',
+        leadPerson: 'Catering Lead',
+        location: 'Terrace',
+        notes: 'Signature Aperol Spritz.',
+      },
+      {
+        id: 'ros-5',
+        time: '06:45 PM',
+        activity: 'Grand Entrance & First Dance',
+        leadPerson: 'Reception DJ',
+        location: 'Grand Ballroom',
+        notes: 'Toasts and dinner service.',
+      },
     ],
   },
   vendors: {
     items: [
-      { id: 'v-1', category: 'Venue', name: 'Grand Oak Manor', serviceDescription: 'Ballroom and garden ceremony grounds.', status: 'booked', quoteAmount: 8500, depositPaid: true, depositAmount: 2500, balanceRemaining: 6000, contractSigned: true, notes: 'Final headcount due 14 days prior.' },
-      { id: 'v-2', category: 'Photography', name: 'Aura Lens Studio', serviceDescription: 'Full-day photo and 4K cinema coverage.', status: 'booked', quoteAmount: 3500, depositPaid: true, depositAmount: 1000, balanceRemaining: 2500, contractSigned: true, notes: 'Drone permit verified.' },
-      { id: 'v-3', category: 'Catering', name: 'Savory Haven Cuisine', serviceDescription: 'Plated 3-course dinner and open bar.', status: 'contract_pending', quoteAmount: 7200, depositPaid: false, depositAmount: 1800, balanceRemaining: 7200, contractSigned: false, notes: 'Tasting scheduled next week.' },
-      { id: 'v-4', category: 'Music & DJ', name: 'Groove Collective DJs', serviceDescription: 'Ceremony PA and reception party lighting.', status: 'quoted', quoteAmount: 1800, depositPaid: false, depositAmount: 400, balanceRemaining: 1800, contractSigned: false, notes: 'Do not play list submitted.' },
+      {
+        id: 'v-1',
+        category: 'Venue',
+        name: 'Grand Oak Manor',
+        serviceDescription: 'Ballroom and garden ceremony grounds.',
+        status: 'booked',
+        quoteAmount: 8500,
+        depositPaid: true,
+        depositAmount: 2500,
+        balanceRemaining: 6000,
+        contractSigned: true,
+        notes: 'Final headcount due 14 days prior.',
+      },
+      {
+        id: 'v-2',
+        category: 'Photography',
+        name: 'Aura Lens Studio',
+        serviceDescription: 'Full-day photo and 4K cinema coverage.',
+        status: 'booked',
+        quoteAmount: 3500,
+        depositPaid: true,
+        depositAmount: 1000,
+        balanceRemaining: 2500,
+        contractSigned: true,
+        notes: 'Drone permit verified.',
+      },
+      {
+        id: 'v-3',
+        category: 'Catering',
+        name: 'Savory Haven Cuisine',
+        serviceDescription: 'Plated 3-course dinner and open bar.',
+        status: 'contract_pending',
+        quoteAmount: 7200,
+        depositPaid: false,
+        depositAmount: 1800,
+        balanceRemaining: 7200,
+        contractSigned: false,
+        notes: 'Tasting scheduled next week.',
+      },
+      {
+        id: 'v-4',
+        category: 'Music & DJ',
+        name: 'Groove Collective DJs',
+        serviceDescription: 'Ceremony PA and reception party lighting.',
+        status: 'quoted',
+        quoteAmount: 1800,
+        depositPaid: false,
+        depositAmount: 400,
+        balanceRemaining: 1800,
+        contractSigned: false,
+        notes: 'Do not play list submitted.',
+      },
     ],
     metrics: {
       totalVendors: 4,
@@ -94,7 +252,8 @@ const INITIAL_BLUEPRINT: EventBlueprint = {
         id: 'vault-1',
         themeTitle: 'Ethereal Tuscan Vineyard & Olive Grove',
         tagline: 'Under the golden sun, surrounded by vines and eternal devotion.',
-        aestheticDescription: 'Sun-bleached limestone textures, sprawling olive branch garlands, and warm candlelight.',
+        aestheticDescription:
+          'Sun-bleached limestone textures, sprawling olive branch garlands, and warm candlelight.',
         colorPalette: [
           { name: 'Olive Leaf', hex: '#556B2F' },
           { name: 'Warm Terracotta', hex: '#E2725B' },
@@ -112,7 +271,8 @@ const INITIAL_BLUEPRINT: EventBlueprint = {
           'Interactive olive oil tasting bar with artisan focaccia',
           'Polaroid memory guestbook framed on rustic reclaimed timber easel',
         ],
-        invitationWordingDraft: 'Together with their families, [Names] invite you to celebrate love, wine, and forever beneath the Tuscan canopy.',
+        invitationWordingDraft:
+          'Together with their families, [Names] invite you to celebrate love, wine, and forever beneath the Tuscan canopy.',
       },
     ],
     bespokeConcept: {
@@ -137,7 +297,8 @@ const INITIAL_BLUEPRINT: EventBlueprint = {
         'Interactive olive oil tasting bar with artisan focaccia',
         'Polaroid memory guestbook framed on rustic reclaimed timber easel',
       ],
-      invitationWordingDraft: 'Together with their families, [Names] invite you to celebrate love, wine, and forever beneath the Tuscan canopy.',
+      invitationWordingDraft:
+        'Together with their families, [Names] invite you to celebrate love, wine, and forever beneath the Tuscan canopy.',
     },
   },
 };
@@ -207,11 +368,7 @@ export const App: React.FC = () => {
 
   const handleUpdateVendor = async (vendorId: string, newStatus: VendorStatus) => {
     try {
-      const res = await ApiService.updateVendorStatus(
-        blueprint.vendors.items,
-        vendorId,
-        newStatus
-      );
+      const res = await ApiService.updateVendorStatus(blueprint.vendors.items, vendorId, newStatus);
       if (res.success) {
         setBlueprint((prev) => ({
           ...prev,
@@ -257,7 +414,11 @@ export const App: React.FC = () => {
       <Navigation activeTab={activeTab} onSelectTab={setActiveTab} />
 
       {/* Primary Semantic Content Area */}
-      <main id="main-content" tabIndex={-1} className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 focus:outline-none">
+      <main
+        id="main-content"
+        tabIndex={-1}
+        className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 focus:outline-none"
+      >
         {activeTab === 'copilot' && <AuraCopilot blueprint={blueprint} />}
         {activeTab === 'wedding' && <WeddingStudio blueprint={blueprint} />}
         {activeTab === 'birthday' && <BirthdayBash blueprint={blueprint} />}

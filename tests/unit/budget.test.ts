@@ -31,8 +31,22 @@ describe('BudgetEngine Unit Tests', () => {
 
   it('flags over-budget state when actual expenditures exceed limit', () => {
     const items = [
-      { id: '1', category: 'Venue', name: 'Hall', allocatedAmount: 5000, actualAmount: 7000, status: 'paid' as const },
-      { id: '2', category: 'Catering', name: 'Food', allocatedAmount: 5000, actualAmount: 4000, status: 'committed' as const },
+      {
+        id: '1',
+        category: 'Venue',
+        name: 'Hall',
+        allocatedAmount: 5000,
+        actualAmount: 7000,
+        status: 'paid' as const,
+      },
+      {
+        id: '2',
+        category: 'Catering',
+        name: 'Food',
+        allocatedAmount: 5000,
+        actualAmount: 4000,
+        status: 'committed' as const,
+      },
     ];
     const analysis = BudgetEngine.analyzeBudget(10000, items, 'USD');
     expect(analysis.totalActual).toBe(11000);
@@ -44,7 +58,14 @@ describe('BudgetEngine Unit Tests', () => {
 
   it('provides proactive warnings when remaining cushion is under 10%', () => {
     const items = [
-      { id: '1', category: 'Venue', name: 'Hall', allocatedAmount: 9500, actualAmount: 9500, status: 'paid' as const },
+      {
+        id: '1',
+        category: 'Venue',
+        name: 'Hall',
+        allocatedAmount: 9500,
+        actualAmount: 9500,
+        status: 'paid' as const,
+      },
     ];
     const analysis = BudgetEngine.analyzeBudget(10000, items, 'USD');
     expect(analysis.remainingBudget).toBe(500);
@@ -59,7 +80,9 @@ describe('BudgetEngine Unit Tests', () => {
   });
 
   it('throws BudgetValidationFault on negative or zero budget', () => {
-    expect(() => BudgetEngine.generateInitialBudget(-500, 'wedding')).toThrow(BudgetValidationFault);
+    expect(() => BudgetEngine.generateInitialBudget(-500, 'wedding')).toThrow(
+      BudgetValidationFault
+    );
     expect(() => BudgetEngine.generateInitialBudget(0, 'birthday')).toThrow(BudgetValidationFault);
   });
 
@@ -70,14 +93,28 @@ describe('BudgetEngine Unit Tests', () => {
 
   it('throws BudgetValidationFault if item amounts are negative', () => {
     const badItems = [
-      { id: '1', category: 'Venue', name: 'Hall', allocatedAmount: -100, actualAmount: 0, status: 'pending' as const },
+      {
+        id: '1',
+        category: 'Venue',
+        name: 'Hall',
+        allocatedAmount: -100,
+        actualAmount: 0,
+        status: 'pending' as const,
+      },
     ];
     expect(() => BudgetEngine.analyzeBudget(10000, badItems)).toThrow(BudgetValidationFault);
   });
 
   it('calculates correct variance percentage', () => {
     const items = [
-      { id: '1', category: 'Music', name: 'DJ', allocatedAmount: 1000, actualAmount: 1200, status: 'committed' as const },
+      {
+        id: '1',
+        category: 'Music',
+        name: 'DJ',
+        allocatedAmount: 1000,
+        actualAmount: 1200,
+        status: 'committed' as const,
+      },
     ];
     const analysis = BudgetEngine.analyzeBudget(2000, items);
     expect(analysis.variancePercentage).toBe(20);

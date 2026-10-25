@@ -19,10 +19,18 @@ export const BirthdayBash: React.FC<BirthdayBashProps> = ({ blueprint }) => {
       return { tiers: '1-Tier (8-inch round)', servings: '24-28 servings', sheetCakeNeeded: false };
     }
     if (guests <= 60) {
-      return { tiers: '2-Tier (10" + 6" rounds)', servings: '50-64 servings', sheetCakeNeeded: false };
+      return {
+        tiers: '2-Tier (10" + 6" rounds)',
+        servings: '50-64 servings',
+        sheetCakeNeeded: false,
+      };
     }
     if (guests <= 120) {
-      return { tiers: '3-Tier (12" + 9" + 6")', servings: '100-120 servings', sheetCakeNeeded: false };
+      return {
+        tiers: '3-Tier (12" + 9" + 6")',
+        servings: '100-120 servings',
+        sheetCakeNeeded: false,
+      };
     }
     return {
       tiers: '3-Tier Showpiece + Kitchen Sheet Cake',
@@ -34,11 +42,36 @@ export const BirthdayBash: React.FC<BirthdayBashProps> = ({ blueprint }) => {
   const cakeInfo = getCakeRecommendation(guestCount);
 
   const MILESTONES: Array<{ id: MilestoneAge; label: string; theme: string; vibe: string }> = [
-    { id: '1st', label: '1st Birthday', theme: 'Wild One & Pastel Jungle', vibe: 'Smash cake, baby photo gallery, sensory play zone' },
-    { id: '18th', label: '18th Milestone', theme: 'Neon Festival & Glow Arcade', vibe: 'Silent disco, mocktail bar, retro video games' },
-    { id: '21st', label: '21st Bash', theme: 'Vegas Royale & Velvet Lounge', vibe: 'Flair bartenders, casino gaming tables, DJ stage' },
-    { id: '30th', label: '30th Milestone', theme: 'Dirty 30 Disco & Glamour Loft', vibe: 'Espresso martini tower, gourmet slider flight, vinyl DJ' },
-    { id: '50th', label: '50th Golden Jubilee', theme: 'Vintage Wine Country Gala', vibe: 'Acoustic jazz quartet, cellar tasting, legacy tribute video' },
+    {
+      id: '1st',
+      label: '1st Birthday',
+      theme: 'Wild One & Pastel Jungle',
+      vibe: 'Smash cake, baby photo gallery, sensory play zone',
+    },
+    {
+      id: '18th',
+      label: '18th Milestone',
+      theme: 'Neon Festival & Glow Arcade',
+      vibe: 'Silent disco, mocktail bar, retro video games',
+    },
+    {
+      id: '21st',
+      label: '21st Bash',
+      theme: 'Vegas Royale & Velvet Lounge',
+      vibe: 'Flair bartenders, casino gaming tables, DJ stage',
+    },
+    {
+      id: '30th',
+      label: '30th Milestone',
+      theme: 'Dirty 30 Disco & Glamour Loft',
+      vibe: 'Espresso martini tower, gourmet slider flight, vinyl DJ',
+    },
+    {
+      id: '50th',
+      label: '50th Golden Jubilee',
+      theme: 'Vintage Wine Country Gala',
+      vibe: 'Acoustic jazz quartet, cellar tasting, legacy tribute video',
+    },
   ];
 
   return (
@@ -60,8 +93,8 @@ export const BirthdayBash: React.FC<BirthdayBashProps> = ({ blueprint }) => {
               {blueprint.eventName || 'Birthday Celebration'}
             </h2>
             <p className="text-sm text-slate-300 mt-1 max-w-2xl">
-              Curate milestone birthdays with automated cake tier sizing, age-specific themes, interactive
-              group games, and unforgettable celebration playlists.
+              Curate milestone birthdays with automated cake tier sizing, age-specific themes,
+              interactive group games, and unforgettable celebration playlists.
             </p>
           </div>
 
@@ -70,7 +103,9 @@ export const BirthdayBash: React.FC<BirthdayBashProps> = ({ blueprint }) => {
             <div>
               <p className="text-[10px] uppercase font-bold text-slate-400">Selected Milestone</p>
               <p className="text-lg font-bold text-white">
-                {selectedMilestone === 'custom' ? `${customAge}th Birthday` : `${selectedMilestone} Celebration`}
+                {selectedMilestone === 'custom'
+                  ? `${customAge}th Birthday`
+                  : `${selectedMilestone} Celebration`}
               </p>
             </div>
           </div>
@@ -131,15 +166,21 @@ export const BirthdayBash: React.FC<BirthdayBashProps> = ({ blueprint }) => {
           </div>
 
           <div className="space-y-2">
-            <p className="text-xs font-semibold text-slate-300">Curated Flavor Palette Recommendations:</p>
+            <p className="text-xs font-semibold text-slate-300">
+              Curated Flavor Palette Recommendations:
+            </p>
             <div className="grid grid-cols-2 gap-2 text-xs">
               <div className="p-2.5 rounded-lg bg-slate-900 border border-slate-800">
                 <p className="font-bold text-amber-300">Salted Caramel Bourbon</p>
-                <p className="text-[10px] text-slate-400 mt-0.5">Vanilla bean sponge with espresso buttercream.</p>
+                <p className="text-[10px] text-slate-400 mt-0.5">
+                  Vanilla bean sponge with espresso buttercream.
+                </p>
               </div>
               <div className="p-2.5 rounded-lg bg-slate-900 border border-slate-800">
                 <p className="font-bold text-rose-300">Raspberry Champagne Velvet</p>
-                <p className="text-[10px] text-slate-400 mt-0.5">White chocolate mousse and fresh berry compote.</p>
+                <p className="text-[10px] text-slate-400 mt-0.5">
+                  White chocolate mousse and fresh berry compote.
+                </p>
               </div>
             </div>
           </div>
@@ -159,33 +200,39 @@ export const BirthdayBash: React.FC<BirthdayBashProps> = ({ blueprint }) => {
             <div className="p-3 bg-slate-900/80 rounded-xl border border-slate-800">
               <div className="flex items-center justify-between">
                 <h4 className="text-xs font-bold text-amber-300">The "Roast & Toast" Rapid Fire</h4>
-                <span className="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-400">20 Mins</span>
+                <span className="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-400">
+                  20 Mins
+                </span>
               </div>
               <p className="text-xs text-slate-400 mt-1">
-                Close friends draw prompt cards ("Most likely to...", "Best memory with the birthday VIP")
-                for lighthearted laughs before the cake cutting.
+                Close friends draw prompt cards ("Most likely to...", "Best memory with the birthday
+                VIP") for lighthearted laughs before the cake cutting.
               </p>
             </div>
 
             <div className="p-3 bg-slate-900/80 rounded-xl border border-slate-800">
               <div className="flex items-center justify-between">
                 <h4 className="text-xs font-bold text-rose-300">Digital Milestone Trivia Live</h4>
-                <span className="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-400">15 Mins</span>
+                <span className="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-400">
+                  15 Mins
+                </span>
               </div>
               <p className="text-xs text-slate-400 mt-1">
-                Guests scan a QR code on table tent cards to participate in a 10-question mobile trivia game
-                about the celebrant’s favorite travels and childhood memories.
+                Guests scan a QR code on table tent cards to participate in a 10-question mobile
+                trivia game about the celebrant’s favorite travels and childhood memories.
               </p>
             </div>
 
             <div className="p-3 bg-slate-900/80 rounded-xl border border-slate-800">
               <div className="flex items-center justify-between">
                 <h4 className="text-xs font-bold text-violet-300">Polaroid Guestbook & Capsule</h4>
-                <span className="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-400">Continuous</span>
+                <span className="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-400">
+                  Continuous
+                </span>
               </div>
               <p className="text-xs text-slate-400 mt-1">
-                Instant film cameras placed with metallic pens and gold washi tape for guests to leave photos
-                and handwritten predictions for the next decade.
+                Instant film cameras placed with metallic pens and gold washi tape for guests to
+                leave photos and handwritten predictions for the next decade.
               </p>
             </div>
           </div>

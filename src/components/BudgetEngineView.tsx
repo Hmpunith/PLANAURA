@@ -7,10 +7,7 @@ interface BudgetEngineViewProps {
   onUpdateBudget: (updated: BudgetAnalysis) => void;
 }
 
-export const BudgetEngineView: React.FC<BudgetEngineViewProps> = ({
-  budget,
-  onUpdateBudget,
-}) => {
+export const BudgetEngineView: React.FC<BudgetEngineViewProps> = ({ budget, onUpdateBudget }) => {
   const [items, setItems] = useState<BudgetItem[]>(budget.items);
   const [currency, setCurrency] = useState<string>(budget.currency || 'USD');
 
@@ -22,7 +19,10 @@ export const BudgetEngineView: React.FC<BudgetEngineViewProps> = ({
 
     let totalAlloc = 0;
     let totalAct = 0;
-    const categoryAllocations: Record<string, { allocated: number; actual: number; percentOfTotal: number }> = {};
+    const categoryAllocations: Record<
+      string,
+      { allocated: number; actual: number; percentOfTotal: number }
+    > = {};
 
     updatedItems.forEach((it) => {
       totalAlloc += it.allocatedAmount;
@@ -54,7 +54,9 @@ export const BudgetEngineView: React.FC<BudgetEngineViewProps> = ({
       allocationsByCategory: categoryAllocations,
       items: updatedItems,
       alerts: isOver
-        ? [`Critical: Currently over budget by ${currency} ${Math.abs(remaining).toLocaleString()}!`]
+        ? [
+            `Critical: Currently over budget by ${currency} ${Math.abs(remaining).toLocaleString()}!`,
+          ]
         : [],
     });
   };
@@ -84,7 +86,8 @@ export const BudgetEngineView: React.FC<BudgetEngineViewProps> = ({
               Financial Blueprint & Expense Ledger
             </h2>
             <p className="text-sm text-slate-300 mt-1">
-              Real-time variance tracking, category percentage caps, and automated cost-saving recommendations.
+              Real-time variance tracking, category percentage caps, and automated cost-saving
+              recommendations.
             </p>
           </div>
 
@@ -201,11 +204,21 @@ export const BudgetEngineView: React.FC<BudgetEngineViewProps> = ({
           <table className="w-full text-left border-collapse text-xs">
             <thead>
               <tr className="bg-slate-900/80 text-slate-400 border-b border-slate-800">
-                <th scope="col" className="px-6 py-3 font-semibold">Category & Description</th>
-                <th scope="col" className="px-6 py-3 font-semibold">Allocated</th>
-                <th scope="col" className="px-6 py-3 font-semibold">Actual Spent</th>
-                <th scope="col" className="px-6 py-3 font-semibold">Status</th>
-                <th scope="col" className="px-6 py-3 font-semibold">Variance</th>
+                <th scope="col" className="px-6 py-3 font-semibold">
+                  Category & Description
+                </th>
+                <th scope="col" className="px-6 py-3 font-semibold">
+                  Allocated
+                </th>
+                <th scope="col" className="px-6 py-3 font-semibold">
+                  Actual Spent
+                </th>
+                <th scope="col" className="px-6 py-3 font-semibold">
+                  Status
+                </th>
+                <th scope="col" className="px-6 py-3 font-semibold">
+                  Variance
+                </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-800/60">
@@ -274,8 +287,14 @@ export const BudgetEngineView: React.FC<BudgetEngineViewProps> = ({
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs text-slate-300">
           {budget.costOptimizationTips.map((tip, idx) => (
-            <div key={idx} className="p-3 bg-slate-900/80 rounded-xl border border-slate-800 flex items-start space-x-2">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" aria-hidden="true" />
+            <div
+              key={idx}
+              className="p-3 bg-slate-900/80 rounded-xl border border-slate-800 flex items-start space-x-2"
+            >
+              <CheckCircle2
+                className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5"
+                aria-hidden="true"
+              />
               <span>{tip}</span>
             </div>
           ))}

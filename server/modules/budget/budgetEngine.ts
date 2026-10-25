@@ -25,7 +25,10 @@ export interface BudgetAnalysis {
   remainingBudget: number;
   isOverBudget: boolean;
   variancePercentage: number;
-  allocationsByCategory: Record<string, { allocated: number; actual: number; percentOfTotal: number }>;
+  allocationsByCategory: Record<
+    string,
+    { allocated: number; actual: number; percentOfTotal: number }
+  >;
   alerts: string[];
   costOptimizationTips: string[];
   items: BudgetItem[];
@@ -164,12 +167,18 @@ export class BudgetEngine {
 
     // Cost optimization intelligence
     const costOptimizationTips: string[] = [];
-    if (allocationsByCategory['Venue & Catering'] && allocationsByCategory['Venue & Catering'].percentOfTotal > 50) {
+    if (
+      allocationsByCategory['Venue & Catering'] &&
+      allocationsByCategory['Venue & Catering'].percentOfTotal > 50
+    ) {
       costOptimizationTips.push(
         'Venue & Catering exceeds 50% of your budget. Consider buffet-style or brunch service to trim per-guest costs by 18-25%.'
       );
     }
-    if (allocationsByCategory['Contingency Buffer'] && allocationsByCategory['Contingency Buffer'].allocated === 0) {
+    if (
+      allocationsByCategory['Contingency Buffer'] &&
+      allocationsByCategory['Contingency Buffer'].allocated === 0
+    ) {
       costOptimizationTips.push(
         'Recommended: Reserve at least 5-10% of total budget as an unallocated contingency buffer for emergency overtime and delivery fees.'
       );

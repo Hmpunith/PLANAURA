@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @layer base {
   :root {
@@ -63,13 +63,19 @@
     background-color: #000000 !important;
     color: #ffffff !important;
   }
-  
-  .card, [role="region"], [role="tabpanel"], nav, header, footer {
+
+  .card,
+  [role='region'],
+  [role='tabpanel'],
+  nav,
+  header,
+  footer {
     border-color: #ffffff !important;
     background-color: #050505 !important;
   }
 
-  button, a {
+  button,
+  a {
     outline: 2px solid currentColor !important;
   }
 }
@@ -81,7 +87,11 @@
     color: #000000 !important;
   }
 
-  header, nav, footer, button, .no-print {
+  header,
+  nav,
+  footer,
+  button,
+  .no-print {
     display: none !important;
   }
 

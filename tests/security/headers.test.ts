@@ -49,9 +49,7 @@ describe('Security Headers & Defense-in-Depth Middleware Tests', () => {
       vibe: '<script src="evil.js"></script>Tuscan Romance',
     };
 
-    const res = await request(app)
-      .post('/api/plan/generate')
-      .send(maliciousPayload);
+    const res = await request(app).post('/api/plan/generate').send(maliciousPayload);
 
     expect(res.status).toBe(200);
     expect(res.body.blueprint.eventName).not.toContain('<script>');

@@ -51,8 +51,19 @@ PlanAuraFault (extends Error, 500)
   └── AIServiceFault (502)
 ```
 
-### 3. Modular Separation of Concerns
-The backend server is split into 8 focused modules (`server/config/`, `server/errors/`, `server/middleware/`, `server/modules/`, `server/services/`, and `server/routes/`), each adhering to the single responsibility principle.
+### 3. Modular Separation of Concerns & Schema Validation
+The backend server is split into 10 focused modules:
+- `server/config/`: Environment loading and port bindings
+- `server/errors/`: Custom domain error hierarchy (`PlanAuraFault`)
+- `server/middleware/`: Security headers, CORS, rate limiting, and centralized error handling
+- `server/modules/validation/`: Strict Zod request payload schemas (`PlanGenerateSchema`, `ChatRequestSchema`, `BudgetAnalyzeSchema`)
+- `server/modules/budget/`: Dynamic allocation and variance ledger engine
+- `server/modules/timeline/`: Countdown roadmap, run-of-show scheduler, and static template registries
+- `server/modules/vendors/`: 5-stage procurement pipeline and catalog models
+- `server/modules/ideas/`: Aesthetic synthesizers and curated color palettes
+- `server/modules/ai/`: Centralized prompt templates, grounding helpers, and fallback synthesis
+- `server/services/`: SHA-256 MemoVault cache and Google Gemini 2.5 Flash SDK integrations
+- `server/utils/`: High-performance structured logging utility (`Logger`)
 
 ---
 
@@ -104,12 +115,15 @@ sequenceDiagram
 
 ## 🛡️ Security & Defense-in-Depth
 
-PlanAura enforces 6 enterprise security controls verified by automated tests:
+PlanAura enforces 9 enterprise security controls verified by automated tests:
 
 | Security Measure | Implementation | Purpose |
 | :--- | :--- | :--- |
 | **Permissions-Policy** | Custom middleware (`camera=(), microphone=(), geolocation=()...`) | Blocks malicious access to sensitive hardware device APIs. |
 | **Content-Security-Policy** | Strict Helmet configuration | Whitelists only verified fonts (`fonts.googleapis.com`) and Gemini endpoints. |
+| **Strict-Transport-Security (HSTS)** | `max-age=63072000; includeSubDomains; preload` | Enforces modern HTTPS-only transport connections. |
+| **Cross-Origin-Opener-Policy (COOP)** | `same-origin` | Isolates browsing context against Spectre-style cross-origin data leaks. |
+| **X-Permitted-Cross-Domain-Policies** | `none` | Blocks Flash/Silverlight cross-domain policy files. |
 | **Clickjacking Defense** | `X-Frame-Options: DENY` | Prevents framing and UI redress attacks. |
 | **MIME Sniffing Defense** | `X-Content-Type-Options: nosniff` | Forces strict MIME type adherence. |
 | **Referrer Privacy** | `Referrer-Policy: strict-origin-when-cross-origin` | Protects sensitive URL query leakage. |
@@ -135,9 +149,9 @@ PlanAura was designed from the ground up for full accessibility:
 
 ---
 
-## 🧪 Automated Test Verification (74 Tests / 9 Suites)
+## 🧪 Automated Test Verification (85 Tests / 10 Suites)
 
-PlanAura maintains a comprehensive test suite executed via Vitest with a **100% pass rate (74/74)**:
+PlanAura maintains a comprehensive test suite executed via Vitest with a **100% pass rate (85/85)**:
 
 ```
  RUN  v5.0.5 C:/Users/Hmpun/.gemini/antigravity/scratch/planaura
@@ -147,13 +161,14 @@ PlanAura maintains a comprehensive test suite executed via Vitest with a **100% 
  ✓ tests/unit/timeline.test.ts (6 tests)
  ✓ tests/unit/vendor.test.ts (9 tests)
  ✓ tests/unit/ideas.test.ts (5 tests)
+ ✓ tests/unit/validation.test.ts (11 tests)
  ✓ tests/security/headers.test.ts (8 tests)
  ✓ tests/integration/api.test.ts (11 tests)
  ✓ tests/resilience/fallback.test.ts (5 tests)
  ✓ tests/components/render.test.tsx (10 tests)
 
- Test Files  9 passed (9)
-      Tests  74 passed (74)
+ Test Files  10 passed (10)
+      Tests  85 passed (85)
    Pass Rate 100%
 ```
 

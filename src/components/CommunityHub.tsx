@@ -58,9 +58,7 @@ export const CommunityHub: React.FC<CommunityHubProps> = ({ blueprint }) => {
   const togglePermit = (id: string) => {
     setPermits((prev) =>
       prev.map((p) =>
-        p.id === id
-          ? { ...p, status: p.status === 'approved' ? 'in_review' : 'approved' }
-          : p
+        p.id === id ? { ...p, status: p.status === 'approved' ? 'in_review' : 'approved' } : p
       )
     );
   };
@@ -89,8 +87,8 @@ export const CommunityHub: React.FC<CommunityHubProps> = ({ blueprint }) => {
               {blueprint.eventName || 'Community Gathering & Festival'}
             </h2>
             <p className="text-sm text-slate-300 mt-1 max-w-2xl">
-              Coordinating civic permits, safety marshals, volunteer shifts, sanitation logistics, and
-              sponsorship funding for community celebrations.
+              Coordinating civic permits, safety marshals, volunteer shifts, sanitation logistics,
+              and sponsorship funding for community celebrations.
             </p>
           </div>
 
@@ -109,7 +107,9 @@ export const CommunityHub: React.FC<CommunityHubProps> = ({ blueprint }) => {
       {/* Fundraiser & Sponsorship Progress Bar */}
       <div className="bg-[#111726]/80 rounded-2xl border border-slate-800 p-6 backdrop-blur-md">
         <div className="flex items-center justify-between mb-2">
-          <span className="text-sm font-bold text-white">Sponsorship & Community Goal Progress</span>
+          <span className="text-sm font-bold text-white">
+            Sponsorship & Community Goal Progress
+          </span>
           <span className="text-xs font-mono font-bold text-teal-400">{percentFunded}% Funded</span>
         </div>
         <div className="w-full bg-slate-900 rounded-full h-3 border border-slate-800 overflow-hidden">
@@ -210,24 +210,42 @@ export const CommunityHub: React.FC<CommunityHubProps> = ({ blueprint }) => {
             <div className="space-y-2 text-xs">
               <div className="p-2.5 rounded-lg bg-slate-900/80 border border-slate-800 flex items-center justify-between">
                 <div>
-                  <span className="font-bold text-slate-200">Zone A: Main Entrance & Welcome Tent</span>
-                  <p className="text-[10px] text-slate-400 mt-0.5">Wristband check, festival maps, lost & found.</p>
+                  <span className="font-bold text-slate-200">
+                    Zone A: Main Entrance & Welcome Tent
+                  </span>
+                  <p className="text-[10px] text-slate-400 mt-0.5">
+                    Wristband check, festival maps, lost & found.
+                  </p>
                 </div>
-                <span className="text-[11px] font-mono text-teal-400 font-semibold">6 Volunteers</span>
+                <span className="text-[11px] font-mono text-teal-400 font-semibold">
+                  6 Volunteers
+                </span>
               </div>
               <div className="p-2.5 rounded-lg bg-slate-900/80 border border-slate-800 flex items-center justify-between">
                 <div>
-                  <span className="font-bold text-slate-200">Zone B: Stage & Performer Hospitality</span>
-                  <p className="text-[10px] text-slate-400 mt-0.5">Green room security, audio cables, hydration station.</p>
+                  <span className="font-bold text-slate-200">
+                    Zone B: Stage & Performer Hospitality
+                  </span>
+                  <p className="text-[10px] text-slate-400 mt-0.5">
+                    Green room security, audio cables, hydration station.
+                  </p>
                 </div>
-                <span className="text-[11px] font-mono text-teal-400 font-semibold">4 Volunteers</span>
+                <span className="text-[11px] font-mono text-teal-400 font-semibold">
+                  4 Volunteers
+                </span>
               </div>
               <div className="p-2.5 rounded-lg bg-slate-900/80 border border-slate-800 flex items-center justify-between">
                 <div>
-                  <span className="font-bold text-slate-200">Zone C: Eco-Green Waste & Recycling Sweep</span>
-                  <p className="text-[10px] text-slate-400 mt-0.5">Continuous sorting, compost bin monitoring.</p>
+                  <span className="font-bold text-slate-200">
+                    Zone C: Eco-Green Waste & Recycling Sweep
+                  </span>
+                  <p className="text-[10px] text-slate-400 mt-0.5">
+                    Continuous sorting, compost bin monitoring.
+                  </p>
                 </div>
-                <span className="text-[11px] font-mono text-teal-400 font-semibold">8 Volunteers</span>
+                <span className="text-[11px] font-mono text-teal-400 font-semibold">
+                  8 Volunteers
+                </span>
               </div>
             </div>
           </div>

@@ -48,7 +48,8 @@ export const PersonalizedIdeasView: React.FC<PersonalizedIdeasViewProps> = ({
               Personalized Concepts, Palettes & Menus
             </h2>
             <p className="text-sm text-slate-300 mt-1">
-              Bespoke themes, harmonious chromatic color stories, signature dining menus, and invitation drafts.
+              Bespoke themes, harmonious chromatic color stories, signature dining menus, and
+              invitation drafts.
             </p>
           </div>
         </div>
@@ -147,25 +148,33 @@ export const PersonalizedIdeasView: React.FC<PersonalizedIdeasViewProps> = ({
 
             <div className="space-y-2 text-xs">
               <div className="p-2.5 rounded-lg bg-slate-900/80 border border-slate-800">
-                <span className="text-[10px] uppercase font-bold text-amber-400 block">Signature Sip</span>
+                <span className="text-[10px] uppercase font-bold text-amber-400 block">
+                  Signature Sip
+                </span>
                 <span className="font-semibold text-slate-200 mt-0.5 block">
                   {selectedConcept.signatureMenu.cocktailOrBeverage}
                 </span>
               </div>
               <div className="p-2.5 rounded-lg bg-slate-900/80 border border-slate-800">
-                <span className="text-[10px] uppercase font-bold text-rose-400 block">Appetizer Course</span>
+                <span className="text-[10px] uppercase font-bold text-rose-400 block">
+                  Appetizer Course
+                </span>
                 <span className="font-semibold text-slate-200 mt-0.5 block">
                   {selectedConcept.signatureMenu.appetizer}
                 </span>
               </div>
               <div className="p-2.5 rounded-lg bg-slate-900/80 border border-slate-800">
-                <span className="text-[10px] uppercase font-bold text-teal-400 block">Main Entrée</span>
+                <span className="text-[10px] uppercase font-bold text-teal-400 block">
+                  Main Entrée
+                </span>
                 <span className="font-semibold text-slate-200 mt-0.5 block">
                   {selectedConcept.signatureMenu.mainCourse}
                 </span>
               </div>
               <div className="p-2.5 rounded-lg bg-slate-900/80 border border-slate-800">
-                <span className="text-[10px] uppercase font-bold text-violet-400 block">Confection Dessert</span>
+                <span className="text-[10px] uppercase font-bold text-violet-400 block">
+                  Confection Dessert
+                </span>
                 <span className="font-semibold text-slate-200 mt-0.5 block">
                   {selectedConcept.signatureMenu.dessert}
                 </span>

@@ -9,11 +9,7 @@ import compression from 'compression';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { config } from './config/env.js';
-import {
-  customSecurityHeaders,
-  helmetMiddleware,
-  sanitizeInput,
-} from './middleware/security.js';
+import { customSecurityHeaders, helmetMiddleware, sanitizeInput } from './middleware/security.js';
 import { apiRateLimiter } from './middleware/rateLimiter.js';
 import { errorHandler } from './middleware/errorHandler.js';
 import { apiRouter } from './routes/api.js';
@@ -75,7 +71,9 @@ app.use((req, res, next) => {
   res.sendFile(path.join(clientDistPath, 'index.html'), (err) => {
     if (err) {
       // In development, dist might not exist yet
-      res.status(200).send('PlanAura API Server is active. Access client via Vite development port.');
+      res
+        .status(200)
+        .send('PlanAura API Server is active. Access client via Vite development port.');
     }
   });
 });
@@ -84,7 +82,8 @@ app.use((req, res, next) => {
 app.use(errorHandler);
 
 // Start server ONLY if executed directly as main script
-const isDirectRun = process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.argv[1]);
+const isDirectRun =
+  process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.argv[1]);
 if (isDirectRun && process.env.NODE_ENV !== 'test' && !process.env.VITEST) {
   app.listen(config.port, () => {
     console.info(`[PlanAura] Engine operational on port ${config.port} (${config.nodeEnv})`);

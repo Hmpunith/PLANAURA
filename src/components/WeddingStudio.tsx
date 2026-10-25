@@ -58,9 +58,7 @@ export const WeddingStudio: React.FC<WeddingStudioProps> = ({ blueprint }) => {
   const tablesRequired = Math.ceil(guestCount / tableCapacity);
 
   const toggleTradition = (id: string) => {
-    setTraditions((prev) =>
-      prev.map((t) => (t.id === id ? { ...t, completed: !t.completed } : t))
-    );
+    setTraditions((prev) => prev.map((t) => (t.id === id ? { ...t, completed: !t.completed } : t)));
   };
 
   return (
@@ -82,8 +80,8 @@ export const WeddingStudio: React.FC<WeddingStudioProps> = ({ blueprint }) => {
               {blueprint.eventName || 'The Wedding Celebration'}
             </h2>
             <p className="text-sm text-slate-300 mt-1 max-w-2xl">
-              Engineered for seamless matrimonial coordination: ceremony processionals, seating charts,
-              rehearsal agendas, and cultural traditions.
+              Engineered for seamless matrimonial coordination: ceremony processionals, seating
+              charts, rehearsal agendas, and cultural traditions.
             </p>
           </div>
 
@@ -140,9 +138,18 @@ export const WeddingStudio: React.FC<WeddingStudioProps> = ({ blueprint }) => {
                 <p className="text-xs text-slate-400 font-medium">Catering Estimate</p>
                 <p className="text-2xl font-bold text-emerald-400 mt-1">
                   {blueprint.currency}{' '}
-                  {Math.round(blueprint.budget.allocationsByCategory['Venue & Catering']?.allocated || 11250).toLocaleString()}
+                  {Math.round(
+                    blueprint.budget.allocationsByCategory['Venue & Catering']?.allocated || 11250
+                  ).toLocaleString()}
                 </p>
-                <p className="text-[10px] text-slate-500 mt-1">~{blueprint.currency} {Math.round((blueprint.budget.allocationsByCategory['Venue & Catering']?.allocated || 11250) / guestCount)}/plate</p>
+                <p className="text-[10px] text-slate-500 mt-1">
+                  ~{blueprint.currency}{' '}
+                  {Math.round(
+                    (blueprint.budget.allocationsByCategory['Venue & Catering']?.allocated ||
+                      11250) / guestCount
+                  )}
+                  /plate
+                </p>
               </div>
               <div className="bg-slate-900/90 p-4 rounded-xl border border-slate-800/80">
                 <p className="text-xs text-slate-400 font-medium">Table Linens</p>
@@ -153,7 +160,9 @@ export const WeddingStudio: React.FC<WeddingStudioProps> = ({ blueprint }) => {
 
             {/* Visual Floorplan Representation */}
             <div>
-              <p className="text-xs font-semibold text-slate-400 mb-3">Interactive Table Floorplan Preview:</p>
+              <p className="text-xs font-semibold text-slate-400 mb-3">
+                Interactive Table Floorplan Preview:
+              </p>
               <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-3 p-4 bg-slate-950/60 rounded-xl border border-slate-800/60 max-h-56 overflow-y-auto">
                 {Array.from({ length: tablesRequired }).map((_, idx) => (
                   <div
@@ -179,21 +188,28 @@ export const WeddingStudio: React.FC<WeddingStudioProps> = ({ blueprint }) => {
 
           {/* Ceremony Run-of-Show Snapshot */}
           <div className="bg-[#111726]/80 rounded-2xl border border-slate-800 p-6 backdrop-blur-md">
-            <h3 className="text-base font-bold text-white mb-3">Ceremony & Processional Protocol</h3>
+            <h3 className="text-base font-bold text-white mb-3">
+              Ceremony & Processional Protocol
+            </h3>
             <div className="space-y-3">
               <div className="p-3 bg-slate-900/80 rounded-xl border border-slate-800 flex items-start space-x-3">
                 <span className="text-xs font-mono text-amber-400 font-bold mt-0.5">04:00 PM</span>
                 <div>
-                  <h4 className="text-xs font-bold text-slate-200">Seating of Grandparents & Parents</h4>
+                  <h4 className="text-xs font-bold text-slate-200">
+                    Seating of Grandparents & Parents
+                  </h4>
                   <p className="text-xs text-slate-400 mt-0.5">
-                    Prelude string quartet (Canon in D); lead ushers seat mothers and light the unity candle.
+                    Prelude string quartet (Canon in D); lead ushers seat mothers and light the
+                    unity candle.
                   </p>
                 </div>
               </div>
               <div className="p-3 bg-slate-900/80 rounded-xl border border-slate-800 flex items-start space-x-3">
                 <span className="text-xs font-mono text-amber-400 font-bold mt-0.5">04:15 PM</span>
                 <div>
-                  <h4 className="text-xs font-bold text-slate-200">Processional of Bridal Party & Ring Bearer</h4>
+                  <h4 className="text-xs font-bold text-slate-200">
+                    Processional of Bridal Party & Ring Bearer
+                  </h4>
                   <p className="text-xs text-slate-400 mt-0.5">
                     Officiant takes position; bridal party processional down the center aisle.
                   </p>
@@ -202,9 +218,12 @@ export const WeddingStudio: React.FC<WeddingStudioProps> = ({ blueprint }) => {
               <div className="p-3 bg-slate-900/80 rounded-xl border border-slate-800 flex items-start space-x-3">
                 <span className="text-xs font-mono text-amber-400 font-bold mt-0.5">04:20 PM</span>
                 <div>
-                  <h4 className="text-xs font-bold text-slate-200">Bridal Entrance & Processional</h4>
+                  <h4 className="text-xs font-bold text-slate-200">
+                    Bridal Entrance & Processional
+                  </h4>
                   <p className="text-xs text-slate-400 mt-0.5">
-                    Doors open; bride escorted down aisle accompanied by live acoustic instrumentation.
+                    Doors open; bride escorted down aisle accompanied by live acoustic
+                    instrumentation.
                   </p>
                 </div>
               </div>
@@ -216,7 +235,9 @@ export const WeddingStudio: React.FC<WeddingStudioProps> = ({ blueprint }) => {
         <div className="space-y-6">
           <div className="bg-[#111726]/80 rounded-2xl border border-slate-800 p-6 backdrop-blur-md">
             <h3 className="text-base font-bold text-white mb-1">Traditions & Milestones</h3>
-            <p className="text-xs text-slate-400 mb-4">Check off ceremonial and regulatory duties:</p>
+            <p className="text-xs text-slate-400 mb-4">
+              Check off ceremonial and regulatory duties:
+            </p>
 
             <div className="space-y-3">
               {traditions.map((t) => (
@@ -231,12 +252,17 @@ export const WeddingStudio: React.FC<WeddingStudioProps> = ({ blueprint }) => {
                   }`}
                 >
                   {t.completed ? (
-                    <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" aria-hidden="true" />
+                    <CheckCircle2
+                      className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5"
+                      aria-hidden="true"
+                    />
                   ) : (
                     <Circle className="w-4 h-4 text-slate-500 shrink-0 mt-0.5" aria-hidden="true" />
                   )}
                   <div>
-                    <h4 className={`text-xs font-bold ${t.completed ? 'line-through text-slate-400' : 'text-slate-200'}`}>
+                    <h4
+                      className={`text-xs font-bold ${t.completed ? 'line-through text-slate-400' : 'text-slate-200'}`}
+                    >
                       {t.title}
                     </h4>
                     <p className="text-[11px] text-slate-400 mt-0.5">{t.description}</p>
@@ -253,7 +279,10 @@ export const WeddingStudio: React.FC<WeddingStudioProps> = ({ blueprint }) => {
               <span>Aura Wedding Insight</span>
             </div>
             <p className="text-xs text-slate-300 leading-relaxed">
-              "Never forget a designated <strong className="text-amber-300 font-semibold">Emergency Bridal Kit</strong> (sewing kit, stain remover, safety pins, clear umbrella, and electrolyte hydration) entrusted to your Maid of Honor!"
+              "Never forget a designated{' '}
+              <strong className="text-amber-300 font-semibold">Emergency Bridal Kit</strong> (sewing
+              kit, stain remover, safety pins, clear umbrella, and electrolyte hydration) entrusted
+              to your Maid of Honor!"
             </p>
           </div>
         </div>

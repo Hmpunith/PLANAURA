@@ -9,17 +9,40 @@ interface VendorChecklistViewProps {
   currency?: string;
 }
 
-const STATUS_CONFIG: Record<VendorStatus, { label: string; bg: string; text: string; border: string }> = {
-  contacted: { label: 'Contacted', bg: 'bg-slate-800', text: 'text-slate-300', border: 'border-slate-700' },
-  quoted: { label: 'Quoted', bg: 'bg-blue-500/10', text: 'text-blue-400', border: 'border-blue-500/20' },
+const STATUS_CONFIG: Record<
+  VendorStatus,
+  { label: string; bg: string; text: string; border: string }
+> = {
+  contacted: {
+    label: 'Contacted',
+    bg: 'bg-slate-800',
+    text: 'text-slate-300',
+    border: 'border-slate-700',
+  },
+  quoted: {
+    label: 'Quoted',
+    bg: 'bg-blue-500/10',
+    text: 'text-blue-400',
+    border: 'border-blue-500/20',
+  },
   contract_pending: {
     label: 'Contract Pending',
     bg: 'bg-amber-500/10',
     text: 'text-amber-400',
     border: 'border-amber-500/20',
   },
-  booked: { label: 'Booked', bg: 'bg-purple-500/10', text: 'text-purple-400', border: 'border-purple-500/20' },
-  paid: { label: 'Paid in Full', bg: 'bg-emerald-500/10', text: 'text-emerald-400', border: 'border-emerald-500/20' },
+  booked: {
+    label: 'Booked',
+    bg: 'bg-purple-500/10',
+    text: 'text-purple-400',
+    border: 'border-purple-500/20',
+  },
+  paid: {
+    label: 'Paid in Full',
+    bg: 'bg-emerald-500/10',
+    text: 'text-emerald-400',
+    border: 'border-emerald-500/20',
+  },
 };
 
 export const VendorChecklistView: React.FC<VendorChecklistViewProps> = ({
@@ -30,8 +53,7 @@ export const VendorChecklistView: React.FC<VendorChecklistViewProps> = ({
 }) => {
   const [filter, setFilter] = useState<'all' | VendorStatus>('all');
 
-  const filteredVendors =
-    filter === 'all' ? vendors : vendors.filter((v) => v.status === filter);
+  const filteredVendors = filter === 'all' ? vendors : vendors.filter((v) => v.status === filter);
 
   return (
     <div
@@ -52,13 +74,16 @@ export const VendorChecklistView: React.FC<VendorChecklistViewProps> = ({
               Vendor Checklists & Contract Tracking
             </h2>
             <p className="text-sm text-slate-300 mt-1">
-              End-to-end vendor readiness: quotes, deposits, signed agreements, and day-of call sheets.
+              End-to-end vendor readiness: quotes, deposits, signed agreements, and day-of call
+              sheets.
             </p>
           </div>
 
           <div className="flex items-center space-x-3 self-start sm:self-auto">
             <div className="bg-slate-900/90 px-4 py-2.5 rounded-xl border border-slate-800 text-right">
-              <span className="text-[10px] text-slate-400 font-bold uppercase block">Readiness</span>
+              <span className="text-[10px] text-slate-400 font-bold uppercase block">
+                Readiness
+              </span>
               <span className="text-xl font-bold font-mono text-emerald-400">
                 {metrics.percentReady}% Booked
               </span>
@@ -69,25 +94,33 @@ export const VendorChecklistView: React.FC<VendorChecklistViewProps> = ({
         {/* Financial Metrics */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-6 pt-4 border-t border-slate-800/80">
           <div className="p-3 bg-slate-950/60 rounded-xl border border-slate-800/60">
-            <span className="text-[10px] text-slate-400 uppercase font-bold block">Total Committed</span>
+            <span className="text-[10px] text-slate-400 uppercase font-bold block">
+              Total Committed
+            </span>
             <span className="text-base font-bold font-mono text-white mt-0.5 block">
               {currency} {metrics.totalCommittedAmount.toLocaleString()}
             </span>
           </div>
           <div className="p-3 bg-slate-950/60 rounded-xl border border-slate-800/60">
-            <span className="text-[10px] text-slate-400 uppercase font-bold block">Deposits Paid</span>
+            <span className="text-[10px] text-slate-400 uppercase font-bold block">
+              Deposits Paid
+            </span>
             <span className="text-base font-bold font-mono text-amber-400 mt-0.5 block">
               {currency} {metrics.totalDepositsPaid.toLocaleString()}
             </span>
           </div>
           <div className="p-3 bg-slate-950/60 rounded-xl border border-slate-800/60">
-            <span className="text-[10px] text-slate-400 uppercase font-bold block">Remaining Liability</span>
+            <span className="text-[10px] text-slate-400 uppercase font-bold block">
+              Remaining Liability
+            </span>
             <span className="text-base font-bold font-mono text-rose-400 mt-0.5 block">
               {currency} {metrics.remainingLiability.toLocaleString()}
             </span>
           </div>
           <div className="p-3 bg-slate-950/60 rounded-xl border border-slate-800/60">
-            <span className="text-[10px] text-slate-400 uppercase font-bold block">Vendor Count</span>
+            <span className="text-[10px] text-slate-400 uppercase font-bold block">
+              Vendor Count
+            </span>
             <span className="text-base font-bold font-mono text-purple-400 mt-0.5 block">
               {metrics.bookedCount} / {metrics.totalVendors} Locked
             </span>
@@ -160,7 +193,9 @@ export const VendorChecklistView: React.FC<VendorChecklistViewProps> = ({
                 <div>
                   <span className="text-[10px] text-slate-500 block">Deposit</span>
                   <span className="font-mono font-bold text-amber-400">
-                    {vendor.depositPaid ? `${currency} ${vendor.depositAmount.toLocaleString()}` : 'Unpaid'}
+                    {vendor.depositPaid
+                      ? `${currency} ${vendor.depositAmount.toLocaleString()}`
+                      : 'Unpaid'}
                   </span>
                 </div>
                 <div>

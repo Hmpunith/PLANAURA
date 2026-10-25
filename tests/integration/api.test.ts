@@ -14,16 +14,14 @@ describe('PlanAura REST API Integration Tests', () => {
   });
 
   it('POST /api/plan/generate generates full end-to-end wedding blueprint', async () => {
-    const res = await request(app)
-      .post('/api/plan/generate')
-      .send({
-        eventType: 'wedding',
-        eventName: 'Savannah & Liam Wedding',
-        totalBudget: 35000,
-        currency: 'USD',
-        guestCount: 120,
-        vibe: 'Romantic Southern Garden',
-      });
+    const res = await request(app).post('/api/plan/generate').send({
+      eventType: 'wedding',
+      eventName: 'Savannah & Liam Wedding',
+      totalBudget: 35000,
+      currency: 'USD',
+      guestCount: 120,
+      vibe: 'Romantic Southern Garden',
+    });
 
     expect(res.status).toBe(200);
     expect(res.body.success).toBe(true);
@@ -38,16 +36,14 @@ describe('PlanAura REST API Integration Tests', () => {
   });
 
   it('POST /api/plan/generate generates birthday blueprints with custom currency', async () => {
-    const res = await request(app)
-      .post('/api/plan/generate')
-      .send({
-        eventType: 'birthday',
-        eventName: 'Marcus 30th Birthday',
-        totalBudget: 7500,
-        currency: 'EUR',
-        guestCount: 45,
-        vibe: 'Retro Neon Lounge',
-      });
+    const res = await request(app).post('/api/plan/generate').send({
+      eventType: 'birthday',
+      eventName: 'Marcus 30th Birthday',
+      totalBudget: 7500,
+      currency: 'EUR',
+      guestCount: 45,
+      vibe: 'Retro Neon Lounge',
+    });
 
     expect(res.status).toBe(200);
     expect(res.body.blueprint.eventType).toBe('birthday');
@@ -56,19 +52,21 @@ describe('PlanAura REST API Integration Tests', () => {
   });
 
   it('POST /api/plan/generate generates community event blueprints with civic permits', async () => {
-    const res = await request(app)
-      .post('/api/plan/generate')
-      .send({
-        eventType: 'community',
-        eventName: 'Oakridge Summer Block Festival',
-        totalBudget: 18000,
-        currency: 'GBP',
-        guestCount: 350,
-      });
+    const res = await request(app).post('/api/plan/generate').send({
+      eventType: 'community',
+      eventName: 'Oakridge Summer Block Festival',
+      totalBudget: 18000,
+      currency: 'GBP',
+      guestCount: 350,
+    });
 
     expect(res.status).toBe(200);
     expect(res.body.blueprint.eventType).toBe('community');
-    expect(res.body.blueprint.timeline.milestones.some((m: { title: string }) => m.title.includes('Permits'))).toBe(true);
+    expect(
+      res.body.blueprint.timeline.milestones.some((m: { title: string }) =>
+        m.title.includes('Permits')
+      )
+    ).toBe(true);
   });
 
   it('POST /api/chat responds with structured conversational planning advice', async () => {
@@ -87,9 +85,7 @@ describe('PlanAura REST API Integration Tests', () => {
   });
 
   it('POST /api/chat rejects empty or whitespace prompts with 400 error', async () => {
-    const res = await request(app)
-      .post('/api/chat')
-      .send({ prompt: '   ' });
+    const res = await request(app).post('/api/chat').send({ prompt: '   ' });
 
     expect(res.status).toBe(400);
     expect(res.body.success).toBe(false);
@@ -102,7 +98,14 @@ describe('PlanAura REST API Integration Tests', () => {
       .send({
         totalBudget: 15000,
         items: [
-          { id: '1', category: 'Venue', name: 'Barn', allocatedAmount: 6000, actualAmount: 5500, status: 'committed' },
+          {
+            id: '1',
+            category: 'Venue',
+            name: 'Barn',
+            allocatedAmount: 6000,
+            actualAmount: 5500,
+            status: 'committed',
+          },
         ],
         currency: 'USD',
       });
@@ -113,9 +116,7 @@ describe('PlanAura REST API Integration Tests', () => {
   });
 
   it('POST /api/timeline/generate returns milestones and run-of-show', async () => {
-    const res = await request(app)
-      .post('/api/timeline/generate')
-      .send({ eventType: 'wedding' });
+    const res = await request(app).post('/api/timeline/generate').send({ eventType: 'wedding' });
 
     expect(res.status).toBe(200);
     expect(res.body.timeline.milestones.length).toBeGreaterThan(0);
@@ -133,13 +134,11 @@ describe('PlanAura REST API Integration Tests', () => {
     const getRes = await request(app).get('/api/vendors/checklist?eventType=wedding');
     const firstVendor = getRes.body.vendors[0];
 
-    const patchRes = await request(app)
-      .patch('/api/vendors/status')
-      .send({
-        vendors: getRes.body.vendors,
-        vendorId: firstVendor.id,
-        newStatus: 'paid',
-      });
+    const patchRes = await request(app).patch('/api/vendors/status').send({
+      vendors: getRes.body.vendors,
+      vendorId: firstVendor.id,
+      newStatus: 'paid',
+    });
 
     expect(patchRes.status).toBe(200);
     const updated = patchRes.body.vendors.find((v: { id: string }) => v.id === firstVendor.id);
@@ -148,13 +147,11 @@ describe('PlanAura REST API Integration Tests', () => {
   });
 
   it('POST /api/ideas/synthesize generates personalized concept', async () => {
-    const res = await request(app)
-      .post('/api/ideas/synthesize')
-      .send({
-        eventType: 'birthday',
-        vibe: 'Retro 80s Neon Arcade',
-        guestCount: 60,
-      });
+    const res = await request(app).post('/api/ideas/synthesize').send({
+      eventType: 'birthday',
+      vibe: 'Retro 80s Neon Arcade',
+      guestCount: 60,
+    });
 
     expect(res.status).toBe(200);
     expect(res.body.bespokeConcept.themeTitle).toContain('Retro 80s Neon Arcade');

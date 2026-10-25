@@ -85,7 +85,10 @@ const renderFormattedMessage = (content: string): React.ReactNode => {
       }
       if (part.startsWith('`') && part.endsWith('`') && part.length >= 2) {
         return (
-          <code key={index} className="px-1.5 py-0.5 rounded bg-slate-800 text-amber-300 font-mono text-xs">
+          <code
+            key={index}
+            className="px-1.5 py-0.5 rounded bg-slate-800 text-amber-300 font-mono text-xs"
+          >
             {part.slice(1, -1)}
           </code>
         );
@@ -128,19 +131,28 @@ const renderFormattedMessage = (content: string): React.ReactNode => {
       const headingContent = formatInline(headerMatch[2]);
       if (level === 1) {
         renderedElements.push(
-          <h1 key={i} className="text-base sm:text-lg font-bold text-amber-300 mt-3 mb-1.5 flex items-center space-x-1">
+          <h1
+            key={i}
+            className="text-base sm:text-lg font-bold text-amber-300 mt-3 mb-1.5 flex items-center space-x-1"
+          >
             {headingContent}
           </h1>
         );
       } else if (level === 2) {
         renderedElements.push(
-          <h2 key={i} className="text-sm sm:text-base font-bold text-white mt-3 mb-1.5 flex items-center space-x-1">
+          <h2
+            key={i}
+            className="text-sm sm:text-base font-bold text-white mt-3 mb-1.5 flex items-center space-x-1"
+          >
             {headingContent}
           </h2>
         );
       } else if (level === 3) {
         renderedElements.push(
-          <h3 key={i} className="text-xs sm:text-sm font-bold text-amber-200 mt-2.5 mb-1 flex items-center space-x-1">
+          <h3
+            key={i}
+            className="text-xs sm:text-sm font-bold text-amber-200 mt-2.5 mb-1 flex items-center space-x-1"
+          >
             {headingContent}
           </h3>
         );
@@ -159,7 +171,10 @@ const renderFormattedMessage = (content: string): React.ReactNode => {
       const match = trimmed.match(/^[-*+]\s+(.*)$/);
       const itemText = match ? match[1] : trimmed.slice(2);
       currentList.push(
-        <li key={`li-${i}`} className="flex items-start space-x-2 text-xs sm:text-sm text-slate-200">
+        <li
+          key={`li-${i}`}
+          className="flex items-start space-x-2 text-xs sm:text-sm text-slate-200"
+        >
           <span className="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0 mt-1.5" />
           <span>{formatInline(itemText)}</span>
         </li>
@@ -172,7 +187,10 @@ const renderFormattedMessage = (content: string): React.ReactNode => {
     if (numMatch) {
       flushList(`l-${i}`);
       currentList.push(
-        <li key={`ol-${i}`} className="flex items-start space-x-2 text-xs sm:text-sm text-slate-200 my-0.5">
+        <li
+          key={`ol-${i}`}
+          className="flex items-start space-x-2 text-xs sm:text-sm text-slate-200 my-0.5"
+        >
           <span className="font-mono text-amber-400 font-bold shrink-0">{numMatch[1]}</span>
           <span>{formatInline(numMatch[2])}</span>
         </li>
@@ -254,7 +272,8 @@ export const AuraCopilot: React.FC<AuraCopilotProps> = ({ blueprint }) => {
 
       setMessages((prev) => [...prev, aiMsg]);
     } catch (err: unknown) {
-      const errorMessage = err instanceof Error ? err.message : 'Please check your connection and try again.';
+      const errorMessage =
+        err instanceof Error ? err.message : 'Please check your connection and try again.';
       setMessages((prev) => [
         ...prev,
         {
@@ -304,7 +323,10 @@ export const AuraCopilot: React.FC<AuraCopilotProps> = ({ blueprint }) => {
                 id: `reset-${Date.now()}`,
                 role: 'model',
                 content: `Chat session refreshed. How can I assist with your **${blueprint.eventType}**?`,
-                timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                timestamp: new Date().toLocaleTimeString([], {
+                  hour: '2-digit',
+                  minute: '2-digit',
+                }),
               },
             ])
           }

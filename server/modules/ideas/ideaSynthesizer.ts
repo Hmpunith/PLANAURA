@@ -62,7 +62,8 @@ const CURATED_IDEA_VAULT: Record<EventCategory, IdeaConcept[]> = {
         { name: 'Onyx Noir', hex: '#1C1C1C' },
       ],
       signatureMenu: {
-        cocktailOrBeverage: 'Midnight Eclipse: Empress 1908 gin, elderflower, and edible gold flakes',
+        cocktailOrBeverage:
+          'Midnight Eclipse: Empress 1908 gin, elderflower, and edible gold flakes',
         appetizer: 'Truffled steak tartare on toasted brioche crisps',
         mainCourse: 'Filet mignon with black garlic reduction and parsnip velvet purée',
         dessert: 'Dark chocolate dome melted with warm salted caramel drizzle',

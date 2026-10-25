@@ -10,9 +10,7 @@ export const TimelineView: React.FC<TimelineViewProps> = ({ timeline }) => {
   const [milestones, setMilestones] = useState<Milestone[]>(timeline.milestones);
 
   const toggleMilestone = (id: string) => {
-    setMilestones((prev) =>
-      prev.map((m) => (m.id === id ? { ...m, completed: !m.completed } : m))
-    );
+    setMilestones((prev) => prev.map((m) => (m.id === id ? { ...m, completed: !m.completed } : m)));
   };
 
   const completedCount = milestones.filter((m) => m.completed).length;
@@ -44,7 +42,9 @@ export const TimelineView: React.FC<TimelineViewProps> = ({ timeline }) => {
 
           <div className="flex items-center space-x-3 self-start sm:self-auto">
             <div className="bg-slate-900/90 px-4 py-2.5 rounded-xl border border-slate-800 text-right">
-              <span className="text-[10px] text-slate-400 font-bold uppercase block">Countdown</span>
+              <span className="text-[10px] text-slate-400 font-bold uppercase block">
+                Countdown
+              </span>
               <span className="text-xl font-bold font-mono text-amber-400">
                 {timeline.daysRemaining} Days
               </span>
@@ -99,13 +99,18 @@ export const TimelineView: React.FC<TimelineViewProps> = ({ timeline }) => {
               }`}
             >
               {m.completed ? (
-                <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" aria-hidden="true" />
+                <CheckCircle2
+                  className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5"
+                  aria-hidden="true"
+                />
               ) : (
                 <Circle className="w-5 h-5 text-slate-500 shrink-0 mt-0.5" aria-hidden="true" />
               )}
               <div className="flex-1">
                 <div className="flex items-center justify-between">
-                  <h4 className={`text-sm font-bold ${m.completed ? 'line-through text-slate-400' : 'text-slate-100'}`}>
+                  <h4
+                    className={`text-sm font-bold ${m.completed ? 'line-through text-slate-400' : 'text-slate-100'}`}
+                  >
                     {m.title}
                   </h4>
                   <span className="text-[10px] px-2 py-0.5 rounded font-mono font-semibold bg-slate-800 text-amber-400 border border-slate-700">
@@ -124,7 +129,9 @@ export const TimelineView: React.FC<TimelineViewProps> = ({ timeline }) => {
         <div className="px-6 py-4 border-b border-slate-800 flex items-center justify-between">
           <div>
             <h3 className="text-base font-bold text-white">Day-Of Master Run-of-Show</h3>
-            <p className="text-xs text-slate-400">Hour-by-hour minute-by-minute operational itinerary</p>
+            <p className="text-xs text-slate-400">
+              Hour-by-hour minute-by-minute operational itinerary
+            </p>
           </div>
           <span className="text-xs px-2.5 py-1 rounded bg-amber-500/10 text-amber-300 border border-amber-500/20 font-bold">
             Live Synchronized
@@ -135,11 +142,21 @@ export const TimelineView: React.FC<TimelineViewProps> = ({ timeline }) => {
           <table className="w-full text-left border-collapse text-xs">
             <thead>
               <tr className="bg-slate-900/80 text-slate-400 border-b border-slate-800">
-                <th scope="col" className="px-6 py-3 font-semibold">Time</th>
-                <th scope="col" className="px-6 py-3 font-semibold">Activity & Milestones</th>
-                <th scope="col" className="px-6 py-3 font-semibold">Lead Coordinator</th>
-                <th scope="col" className="px-6 py-3 font-semibold">Zone / Location</th>
-                <th scope="col" className="px-6 py-3 font-semibold">Operational Notes</th>
+                <th scope="col" className="px-6 py-3 font-semibold">
+                  Time
+                </th>
+                <th scope="col" className="px-6 py-3 font-semibold">
+                  Activity & Milestones
+                </th>
+                <th scope="col" className="px-6 py-3 font-semibold">
+                  Lead Coordinator
+                </th>
+                <th scope="col" className="px-6 py-3 font-semibold">
+                  Zone / Location
+                </th>
+                <th scope="col" className="px-6 py-3 font-semibold">
+                  Operational Notes
+                </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-800/60">
@@ -148,18 +165,10 @@ export const TimelineView: React.FC<TimelineViewProps> = ({ timeline }) => {
                   <td className="px-6 py-3.5 font-mono font-bold text-amber-400 whitespace-nowrap">
                     {item.time}
                   </td>
-                  <td className="px-6 py-3.5 font-semibold text-slate-200">
-                    {item.activity}
-                  </td>
-                  <td className="px-6 py-3.5 text-slate-300">
-                    {item.leadPerson}
-                  </td>
-                  <td className="px-6 py-3.5 text-slate-400 whitespace-nowrap">
-                    {item.location}
-                  </td>
-                  <td className="px-6 py-3.5 text-slate-400 italic">
-                    {item.notes}
-                  </td>
+                  <td className="px-6 py-3.5 font-semibold text-slate-200">{item.activity}</td>
+                  <td className="px-6 py-3.5 text-slate-300">{item.leadPerson}</td>
+                  <td className="px-6 py-3.5 text-slate-400 whitespace-nowrap">{item.location}</td>
+                  <td className="px-6 py-3.5 text-slate-400 italic">{item.notes}</td>
                 </tr>
               ))}
             </tbody>

@@ -11,14 +11,7 @@ import {
 } from 'lucide-react';
 
 export type ActiveTab =
-  | 'copilot'
-  | 'wedding'
-  | 'birthday'
-  | 'community'
-  | 'budget'
-  | 'timeline'
-  | 'vendors'
-  | 'ideas';
+  'copilot' | 'wedding' | 'birthday' | 'community' | 'budget' | 'timeline' | 'vendors' | 'ideas';
 
 interface NavigationProps {
   activeTab: ActiveTab;
@@ -50,7 +43,11 @@ export const Navigation: React.FC<NavigationProps> = ({ activeTab, onSelectTab }
       className="border-b border-slate-800/80 bg-[#0c101b]/80 backdrop-blur-md sticky top-16 z-30 overflow-x-auto scrollbar-none"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div role="tablist" aria-orientation="horizontal" className="flex space-x-1 sm:space-x-2 py-2.5">
+        <div
+          role="tablist"
+          aria-orientation="horizontal"
+          className="flex space-x-1 sm:space-x-2 py-2.5"
+        >
           {NAV_ITEMS.map((item) => {
             const Icon = item.icon;
             const isSelected = activeTab === item.id;

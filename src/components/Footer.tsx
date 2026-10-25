@@ -18,7 +18,8 @@ export const Footer: React.FC = () => {
               PlanAura — AI-Native Celebration & Event Planning Engine
             </p>
             <p className="text-[11px] text-slate-500">
-              PromptWars Challenge 5: Weddings, Birthdays & Community Events with Budgets, Timelines & Vendors.
+              PromptWars Challenge 5: Weddings, Birthdays & Community Events with Budgets, Timelines
+              & Vendors.
             </p>
           </div>
         </div>

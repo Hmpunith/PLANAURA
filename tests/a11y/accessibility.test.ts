@@ -21,7 +21,9 @@ describe('Accessibility & WCAG AA Static Verification', () => {
   });
 
   it('contains valid <meta name="viewport"> configuration', () => {
-    expect(htmlContent).toMatch(/<meta\s+name=["']viewport["']\s+content=["'][^"']*width=device-width/i);
+    expect(htmlContent).toMatch(
+      /<meta\s+name=["']viewport["']\s+content=["'][^"']*width=device-width/i
+    );
   });
 
   it('contains descriptive <meta name="description"> tag', () => {
